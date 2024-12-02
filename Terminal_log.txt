@@ -1,0 +1,672 @@
+01/12/2024
+
+PS C:\Web Development\Projects\Chat-app> mkidr client server
+mkidr : The term 'mkidr' is not recognized as the name of a cmdlet, function, script 
+file, or operable program. Check the spelling of the name, or if a path was 
+included, verify that the path is correct and try again.
+At line:1 char:1
++ mkidr client server
++ ~~~~~
+    + CategoryInfo          : ObjectNotFound: (mkidr:String) [], CommandNotFoundExce 
+   ption
+    + FullyQualifiedErrorId : CommandNotFoundException
+ 
+PS C:\Web Development\Projects\Chat-app> mkdir client
+
+
+    Directory: C:\Web Development\Projects\Chat-app
+
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+d-----         12/1/2024   9:23 PM                client
+
+
+PS C:\Web Development\Projects\Chat-app> mkdir server
+
+
+    Directory: C:\Web Development\Projects\Chat-app
+
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+d-----         12/1/2024   9:23 PM                server
+
+
+PS C:\Web Development\Projects\Chat-app> cd client 
+PS C:\Web Development\Projects\Chat-app\client> npm create vite@latest
+Need to install the following packages:
+create-vite@6.0.1
+Ok to proceed? (y) y
+√ Project name: ... .
+√ Select a framework: » React
+√ Select a variant: » JavaScript + SWC
+
+Scaffolding project in C:\Web Development\Projects\Chat-app\client...
+
+Done. Now run:
+
+  npm install
+  npm run dev
+
+PS C:\Web Development\Projects\Chat-app\client> npm i
+
+added 210 packages, and audited 211 packages in 26s
+
+99 packages are looking for funding
+  run `npm fund` for details
+
+found 0 vulnerabilities
+PS C:\Web Development\Projects\Chat-app\client> npm install @mui/material @emotion/react @emotion/styled
+
+added 62 packages, and audited 273 packages in 11s
+
+108 packages are looking for funding
+  run `npm fund` for details
+
+found 0 vulnerabilities
+PS C:\Web Development\Projects\Chat-app\client> npm i react-router-dom moment 6pp
+
+added 8 packages, and audited 281 packages in 5s
+
+108 packages are looking for funding
+  run `npm fund` for details
+
+found 0 vulnerabilities
+PS C:\Web Development\Projects\Chat-app\client> npm i react-chartjs-2 chart.js
+
+added 3 packages, and audited 284 packages in 5s
+
+108 packages are looking for funding
+  run `npm fund` for details
+
+found 0 vulnerabilities
+PS C:\Web Development\Projects\Chat-app\client> npm react-hot-toast react-helmet-async
+
+Unknown command: "react-hot-toast"
+
+To see a list of supported npm commands, run:
+  npm help
+PS C:\Web Development\Projects\Chat-app\client> npm i react-hot-toast react-helmet-async
+
+added 6 packages, and audited 290 packages in 2s
+
+108 packages are looking for funding
+  run `npm fund` for details
+
+found 0 vulnerabilities
+PS C:\Web Development\Projects\Chat-app\client> npm run dev
+
+> client@0.0.0 dev
+> vite
+
+
+  VITE v6.0.1  ready in 325 ms
+
+  ➜  Local:   http://localhost:5173/
+  ➜  Network: use --host to expose
+  ➜  press h + enter to show help
+^C^CTerminate batch job (Y/N)? y
+PS C:\Web Development\Projects\Chat-app\client> npm install @mui/icons-material @mui/material @emotion/styled @emotion/react
+
+added 1 package, and audited 291 packages in 38s
+
+109 packages are looking for funding
+  run `npm fund` for details
+
+found 0 vulnerabilities
+PS C:\Web Development\Projects\Chat-app\client> npm run dev
+
+> client@0.0.0 dev
+> vite
+
+Re-optimizing dependencies because lockfile has changed
+
+  VITE v6.0.1  ready in 851 ms
+
+  ➜  Local:   http://localhost:5173/
+  ➜  Network: use --host to expose
+  ➜  press h + enter to show help
+10:02:31 PM [vite] (client) ✨ new dependencies optimized: @mui/material
+10:02:31 PM [vite] (client) ✨ optimized dependencies changed. reloading
+10:02:45 PM [vite] (client) page reload src/main.jsx
+10:02:46 PM [vite] (client) page reload src/main.jsx (x2)
+10:03:04 PM [vite] (client) page reload src/main.jsx (x3)
+10:03:05 PM [vite] Pre-transform error: Failed to resolve import "" from "src/main.jsx". Does the file exist?
+  Plugin: vite:import-analysis
+  File: C:/Web Development/Projects/Chat-app/client/src/main.jsx:5:15
+  4  |  import App from './App.jsx';
+  5  |  import { CssBaseline } from '@mui/material';
+  6  |  import '';
+     |          ^
+  7  |  ReactDOM.createRoot(document.getElementById('root')).render(/*#__PURE__*/ _jsxDEV(React.StrictMode, {
+  8  |      children: [
+10:03:05 PM [vite] Internal server error: Failed to resolve import "" from "src/main.jsx". Does the file exist?
+  Plugin: vite:import-analysis
+  File: C:/Web Development/Projects/Chat-app/client/src/main.jsx:5:15
+  4  |  import App from './App.jsx';
+  5  |  import { CssBaseline } from '@mui/material';
+  6  |  import '';
+     |          ^
+  7  |  ReactDOM.createRoot(document.getElementById('root')).render(/*#__PURE__*/ _jsxDEV(React.StrictMode, {
+  8  |      children: [
+      at TransformPluginContext._formatError (file:///C:/Web%20Development/Projects/Chat-app/client/node_modules/vite/dist/node/chunks/dep-BcnkIxro.js:47166:41)
+      at TransformPluginContext.error (file:///C:/Web%20Development/Projects/Chat-app/client/node_modules/vite/dist/node/chunks/dep-BcnkIxro.js:47161:16)
+      at normalizeUrl (file:///C:/Web%20Development/Projects/Chat-app/client/node_modules/vite/dist/node/chunks/dep-BcnkIxro.js:45431:23)
+      at async file:///C:/Web%20Development/Projects/Chat-app/client/node_modules/vite/dist/node/chunks/dep-BcnkIxro.js:45550:39
+      at async Promise.all (index 5)
+      at async TransformPluginContext.transform (file:///C:/Web%20Development/Projects/Chat-app/client/node_modules/vite/dist/node/chunks/dep-BcnkIxro.js:45477:7)
+      at async EnvironmentPluginContainer.transform (file:///C:/Web%20Development/Projects/Chat-app/client/node_modules/vite/dist/node/chunks/dep-BcnkIxro.js:47009:18)     
+      at async loadAndTransform (file:///C:/Web%20Development/Projects/Chat-app/client/node_modules/vite/dist/node/chunks/dep-BcnkIxro.js:40848:27)
+      at async viteTransformMiddleware (file:///C:/Web%20Development/Projects/Chat-app/client/node_modules/vite/dist/node/chunks/dep-BcnkIxro.js:42292:24)
+10:03:08 PM [vite] (client) page reload src/main.jsx
+10:03:11 PM [vite] (client) page reload src/main.jsx (x2)
+10:03:12 PM [vite] (client) ✨ new dependencies optimized: react-helmet-async
+10:03:12 PM [vite] (client) ✨ optimized dependencies changed. reloading
+10:03:18 PM [vite] (client) page reload src/main.jsx
+10:03:19 PM [vite] (client) page reload src/main.jsx (x2)
+10:03:25 PM [vite] (client) page reload src/main.jsx (x3)
+10:03:26 PM [vite] (client) page reload src/main.jsx (x4)
+10:03:29 PM [vite] (client) page reload src/main.jsx (x5)
+10:03:33 PM [vite] (client) page reload src/main.jsx (x6)
+10:03:35 PM [vite] (client) page reload src/main.jsx (x7)
+10:03:38 PM [vite] (client) page reload src/main.jsx (x8)
+10:03:43 PM [vite] (client) page reload src/main.jsx (x9)
+10:03:47 PM [vite] (client) page reload src/main.jsx (x10)
+10:03:48 PM [vite] (client) page reload src/main.jsx (x11)
+10:04:13 PM [vite] (client) hmr update /src/App.jsx
+10:04:13 PM [vite] Internal server error:   × Expected 'from', got 'const'
+   ╭─[C:/Web Development/Projects/Chat-app/client/src/App.jsx:4:1]
+ 1 │ import React from 'react'
+ 2 │ import
+ 3 │
+ 4 │ const App = () => {
+   · ─────
+ 5 │   return (
+ 6 │     <div>App</div>
+ 7 │   )
+   ╰────
+
+
+Caused by:
+    Syntax Error
+  Plugin: vite:react-swc
+  File: C:/Web Development/Projects/Chat-app/client/src/App.jsx:4:1
+
+10:04:15 PM [vite] (client) hmr update /src/App.jsx
+10:04:15 PM [vite] Internal server error:   × Expected 'from', got 'const'
+   ╭─[C:/Web Development/Projects/Chat-app/client/src/App.jsx:4:1]
+ 1 │ import React from 'react'
+ 2 │ import {B}
+ 3 │
+ 4 │ const App = () => {
+   · ─────
+ 5 │   return (
+ 6 │     <div>App</div>
+ 7 │   )
+   ╰────
+
+
+Caused by:
+    Syntax Error
+  Plugin: vite:react-swc
+  File: C:/Web Development/Projects/Chat-app/client/src/App.jsx:4:1
+
+10:04:16 PM [vite] (client) hmr update /src/App.jsx
+10:04:16 PM [vite] Internal server error:   × Expected 'from', got 'const'
+   ╭─[C:/Web Development/Projects/Chat-app/client/src/App.jsx:4:1]
+ 1 │ import React from 'react'
+ 2 │ import {Bro}
+ 3 │
+ 4 │ const App = () => {
+   · ─────
+ 5 │   return (
+ 6 │     <div>App</div>
+ 7 │   )
+   ╰────
+
+
+Caused by:
+    Syntax Error
+  Plugin: vite:react-swc
+  File: C:/Web Development/Projects/Chat-app/client/src/App.jsx:4:1
+
+10:04:18 PM [vite] (client) hmr update /src/App.jsx
+10:04:18 PM [vite] Internal server error:   × Expected 'from', got 'const'
+   ╭─[C:/Web Development/Projects/Chat-app/client/src/App.jsx:4:1]
+ 1 │ import React from 'react'
+ 2 │ import {Browser}
+ 3 │
+ 4 │ const App = () => {
+   · ─────
+ 5 │   return (
+ 6 │     <div>App</div>
+ 7 │   )
+   ╰────
+
+
+Caused by:
+    Syntax Error
+  Plugin: vite:react-swc
+  File: C:/Web Development/Projects/Chat-app/client/src/App.jsx:4:1
+
+10:04:29 PM [vite] (client) hmr update /src/App.jsx
+10:04:29 PM [vite] Internal server error:   × Expected 'from', got 'const'
+   ╭─[C:/Web Development/Projects/Chat-app/client/src/App.jsx:4:1]
+ 1 │ import React from 'react'
+ 2 │ import {BrowserRouter as Router,}
+ 3 │
+ 4 │ const App = () => {
+   · ─────
+ 5 │   return (
+ 6 │     <div>App</div>
+ 7 │   )
+   ╰────
+
+
+Caused by:
+    Syntax Error
+  Plugin: vite:react-swc
+  File: C:/Web Development/Projects/Chat-app/client/src/App.jsx:4:1
+
+10:04:32 PM [vite] (client) hmr update /src/App.jsx
+10:04:32 PM [vite] Internal server error:   × Expected 'from', got 'const'
+   ╭─[C:/Web Development/Projects/Chat-app/client/src/App.jsx:4:1]
+ 1 │ import React from 'react'
+ 2 │ import {BrowserRouter as Router, }
+ 3 │
+ 4 │ const App = () => {
+   · ─────
+ 5 │   return (
+ 6 │     <div>App</div>
+ 7 │   )
+   ╰────
+
+
+Caused by:
+    Syntax Error
+  Plugin: vite:react-swc
+  File: C:/Web Development/Projects/Chat-app/client/src/App.jsx:4:1
+
+10:04:34 PM [vite] (client) hmr update /src/App.jsx
+10:04:34 PM [vite] Internal server error:   × Expected 'from', got 'const'
+   ╭─[C:/Web Development/Projects/Chat-app/client/src/App.jsx:4:1]
+ 1 │ import React from 'react'
+ 2 │ import {BrowserRouter as Router, Routes}
+ 3 │
+ 4 │ const App = () => {
+   · ─────
+ 5 │   return (
+ 6 │     <div>App</div>
+ 7 │   )
+   ╰────
+
+
+Caused by:
+    Syntax Error
+  Plugin: vite:react-swc
+  File: C:/Web Development/Projects/Chat-app/client/src/App.jsx:4:1
+
+10:04:36 PM [vite] (client) hmr update /src/App.jsx
+10:04:36 PM [vite] Internal server error:   × Expected 'from', got 'const'
+   ╭─[C:/Web Development/Projects/Chat-app/client/src/App.jsx:4:1]
+ 1 │ import React from 'react'
+ 2 │ import {BrowserRouter as Router, Routes,Route}
+ 3 │
+ 4 │ const App = () => {
+   · ─────
+ 5 │   return (
+ 6 │     <div>App</div>
+ 7 │   )
+   ╰────
+
+
+Caused by:
+    Syntax Error
+  Plugin: vite:react-swc
+  File: C:/Web Development/Projects/Chat-app/client/src/App.jsx:4:1
+
+10:04:39 PM [vite] (client) hmr update /src/App.jsx
+10:04:39 PM [vite] Internal server error:   × Unexpected token `const`. Expected a string literal
+   ╭─[C:/Web Development/Projects/Chat-app/client/src/App.jsx:4:1]
+ 1 │ import React from 'react'
+ 2 │ import {BrowserRouter as Router, Routes,Route} from
+ 3 │
+ 4 │ const App = () => {
+   · ─────
+ 5 │   return (
+ 6 │     <div>App</div>
+ 7 │   )
+   ╰────
+
+
+Caused by:
+    Syntax Error
+  Plugin: vite:react-swc
+  File: C:/Web Development/Projects/Chat-app/client/src/App.jsx:4:1
+
+10:04:41 PM [vite] (client) hmr update /src/App.jsx
+10:04:41 PM [vite] Internal server error: Failed to resolve import "rea" from "src/App.jsx". Does the file exist?
+  Plugin: vite:import-analysis
+  File: C:/Web Development/Projects/Chat-app/client/src/App.jsx:2:52
+  9  |  import { jsxDEV as _jsxDEV } from "react/jsx-dev-runtime";
+  10 |  import React from 'react';
+  11 |  import { BrowserRouter as Router, Routes, Route } from 'rea';
+     |                                                          ^
+  12 |  const App = ()=>{
+  13 |      return /*#__PURE__*/ _jsxDEV("div", {
+      at TransformPluginContext._formatError (file:///C:/Web%20Development/Projects/Chat-app/client/node_modules/vite/dist/node/chunks/dep-BcnkIxro.js:47166:41)
+      at TransformPluginContext.error (file:///C:/Web%20Development/Projects/Chat-app/client/node_modules/vite/dist/node/chunks/dep-BcnkIxro.js:47161:16)
+      at normalizeUrl (file:///C:/Web%20Development/Projects/Chat-app/client/node_modules/vite/dist/node/chunks/dep-BcnkIxro.js:45431:23)
+      at async file:///C:/Web%20Development/Projects/Chat-app/client/node_modules/vite/dist/node/chunks/dep-BcnkIxro.js:45550:39
+      at async Promise.all (index 3)
+      at async TransformPluginContext.transform (file:///C:/Web%20Development/Projects/Chat-app/client/node_modules/vite/dist/node/chunks/dep-BcnkIxro.js:45477:7)
+      at async EnvironmentPluginContainer.transform (file:///C:/Web%20Development/Projects/Chat-app/client/node_modules/vite/dist/node/chunks/dep-BcnkIxro.js:47009:18)     
+      at async loadAndTransform (file:///C:/Web%20Development/Projects/Chat-app/client/node_modules/vite/dist/node/chunks/dep-BcnkIxro.js:40848:27)
+      at async viteTransformMiddleware (file:///C:/Web%20Development/Projects/Chat-app/client/node_modules/vite/dist/node/chunks/dep-BcnkIxro.js:42292:24)
+10:04:48 PM [vite] (client) page reload src/App.jsx
+10:04:48 PM [vite] (client) ✨ new dependencies optimized: react-router-dom
+10:04:48 PM [vite] (client) ✨ optimized dependencies changed. reloading
+10:05:09 PM [vite] (client) hmr update /src/App.jsx
+10:05:41 PM [vite] (client) hmr update /src/App.jsx (x2)
+10:05:41 PM [vite] Internal server error:   × Parenthesized expression cannot be empty
+    ╭─[C:/Web Development/Projects/Chat-app/client/src/App.jsx:5:1]
+  2 │     import {BrowserRouter, Routes,Route} from 'react-router-dom'
+  3 │
+  4 │     const App = () => {
+  5 │ ╭─▶   return (
+  6 │ │
+  7 │ ╰─▶   )
+  8 │     }
+  9 │
+ 10 │     export default App
+    ╰────
+
+
+Caused by:
+    Syntax Error
+  Plugin: vite:react-swc
+  File: C:/Web Development/Projects/Chat-app/client/src/App.jsx:5:1
+
+10:05:43 PM [vite] (client) hmr update /src/App.jsx
+10:05:49 PM [vite] (client) hmr update /src/App.jsx (x2)
+10:05:50 PM [vite] (client) hmr update /src/App.jsx (x3)
+10:05:50 PM [vite] Internal server error:   × Expression expected
+    ╭─[C:/Web Development/Projects/Chat-app/client/src/App.jsx:7:1]
+  4 │ const App = () => {
+  5 │   return (
+  6 │      BrowserRouter>
+  7 │   )
+    ·   ─
+  8 │ }
+  9 │
+ 10 │ export default App
+    ╰────
+
+
+Caused by:
+    Syntax Error
+  Plugin: vite:react-swc
+  File: C:/Web Development/Projects/Chat-app/client/src/App.jsx:7:1
+
+10:05:52 PM [vite] (client) hmr update /src/App.jsx
+10:05:53 PM [vite] (client) hmr update /src/App.jsx (x2)
+10:05:56 PM [vite] (client) hmr update /src/App.jsx (x3)
+10:05:59 PM [vite] (client) hmr update /src/App.jsx (x4)
+10:06:05 PM [vite] (client) hmr update /src/App.jsx (x5)
+10:06:08 PM [vite] (client) hmr update /src/App.jsx (x6)
+10:06:09 PM [vite] (client) hmr update /src/App.jsx (x7)
+10:06:09 PM [vite] Internal server error:   × Unexpected token. Did you mean `{'>'}` or `&gt;`?
+    ╭─[C:/Web Development/Projects/Chat-app/client/src/App.jsx:8:1]
+  5 │   return (
+  6 │      <BrowserRouter>
+  7 │       <Routes>
+  8 │         Route>
+    ·              ▲
+  9 │       </Routes>
+ 10 │      </BrowserRouter>
+ 11 │   )
+    ╰────
+
+
+Caused by:
+    Syntax Error
+  Plugin: vite:react-swc
+  File: C:/Web Development/Projects/Chat-app/client/src/App.jsx:8:1
+
+10:06:15 PM [vite] (client) hmr update /src/App.jsx
+10:06:15 PM [vite] Internal server error:   × Unexpected token. Did you mean `{'>'}` or `&gt;`?
+    ╭─[C:/Web Development/Projects/Chat-app/client/src/App.jsx:8:1]
+  5 │   return (
+  6 │      <BrowserRouter>
+  7 │       <Routes>
+  8 │         Route>
+    ·              ▲
+  9 │       </Routes>
+ 10 │      </BrowserRouter>
+ 11 │   )
+    ╰────
+
+
+Caused by:
+    Syntax Error
+  Plugin: vite:react-swc
+  File: C:/Web Development/Projects/Chat-app/client/src/App.jsx:8:1
+
+10:06:16 PM [vite] (client) hmr update /src/App.jsx
+10:06:22 PM [vite] (client) hmr update /src/App.jsx (x2)
+10:06:25 PM [vite] (client) hmr update /src/App.jsx (x3)
+10:06:25 PM [vite] Internal server error:   × Unexpected token `jsx name (Route)`. Expected > (jsx closing tag)
+    ╭─[C:/Web Development/Projects/Chat-app/client/src/App.jsx:8:1]
+  5 │   return (
+  6 │      <BrowserRouter>
+  7 │       <Routes>
+  8 │         <Route/Route>
+    ·                ─────
+  9 │       </Routes>
+ 10 │      </BrowserRouter>
+ 11 │   )
+    ╰────
+
+
+Caused by:
+    Syntax Error
+  Plugin: vite:react-swc
+  File: C:/Web Development/Projects/Chat-app/client/src/App.jsx:8:1
+
+10:06:30 PM [vite] (client) hmr update /src/App.jsx
+10:06:35 PM [vite] (client) hmr update /src/App.jsx (x2)
+10:06:39 PM [vite] (client) hmr update /src/App.jsx (x3)
+10:06:40 PM [vite] (client) hmr update /src/App.jsx (x4)
+10:06:42 PM [vite] (client) hmr update /src/App.jsx (x5)
+10:06:49 PM [vite] (client) hmr update /src/App.jsx (x6)
+10:06:52 PM [vite] (client) hmr update /src/App.jsx (x7)
+10:06:58 PM [vite] (client) hmr update /src/App.jsx (x8)
+10:07:00 PM [vite] (client) hmr update /src/App.jsx (x9)
+10:07:22 PM [vite] (client) hmr update /src/App.jsx (x10)
+10:07:24 PM [vite] (client) hmr update /src/App.jsx (x11)
+10:07:27 PM [vite] (client) hmr update /src/App.jsx (x12)
+10:07:27 PM [vite] Internal server error:   × Unterminated regexp literal
+    ╭─[C:/Web Development/Projects/Chat-app/client/src/App.jsx:8:1]
+  5 │   return (
+  6 │      <BrowserRouter>
+  7 │       <Routes>
+  8 │         <Route path='/' element={/>
+    ·                                  ──
+  9 │         <Route path='about' />
+ 10 │       </Routes>
+ 11 │      </BrowserRouter>
+    ╰────
+
+
+Caused by:
+    Syntax Error
+  Plugin: vite:react-swc
+  File: C:/Web Development/Projects/Chat-app/client/src/App.jsx:8:1
+
+10:07:29 PM [vite] (client) hmr update /src/App.jsx
+10:07:29 PM [vite] Internal server error:   × Expression expected
+    ╭─[C:/Web Development/Projects/Chat-app/client/src/App.jsx:8:1]
+  5 │   return (
+  6 │      <BrowserRouter>
+  7 │       <Routes>
+  8 │         <Route path='/' element={}/>
+    ·                                   ─
+  9 │         <Route path='about' />
+ 10 │       </Routes>
+ 11 │      </BrowserRouter>
+    ╰────
+  × Expression expected
+    ╭─[C:/Web Development/Projects/Chat-app/client/src/App.jsx:8:1]
+  5 │   return (
+  6 │      <BrowserRouter>
+  7 │       <Routes>
+  8 │         <Route path='/' element={}/>
+    ·                                    ─
+  9 │         <Route path='about' />
+ 10 │       </Routes>
+ 11 │      </BrowserRouter>
+    ╰────
+
+
+Caused by:
+    Syntax Error
+  Plugin: vite:react-swc
+  File: C:/Web Development/Projects/Chat-app/client/src/App.jsx:8:1
+
+10:07:33 PM [vite] (client) hmr update /src/App.jsx
+10:07:33 PM [vite] Internal server error:   × Expression expected
+    ╭─[C:/Web Development/Projects/Chat-app/client/src/App.jsx:8:1]
+  5 │   return (
+  6 │      <BrowserRouter>
+  7 │       <Routes>
+  8 │         <Route path='/' element={}/>
+    ·                                   ─
+  9 │         <Route path='about' />
+ 10 │       </Routes>
+ 11 │      </BrowserRouter>
+    ╰────
+  × Expression expected
+    ╭─[C:/Web Development/Projects/Chat-app/client/src/App.jsx:8:1]
+  5 │   return (
+  6 │      <BrowserRouter>
+  7 │       <Routes>
+  8 │         <Route path='/' element={}/>
+    ·                                    ─
+  9 │         <Route path='about' />
+ 10 │       </Routes>
+ 11 │      </BrowserRouter>
+    ╰────
+
+
+Caused by:
+    Syntax Error
+  Plugin: vite:react-swc
+  File: C:/Web Development/Projects/Chat-app/client/src/App.jsx:8:1
+
+10:07:38 PM [vite] (client) hmr update /src/App.jsx
+10:07:41 PM [vite] (client) hmr update /src/App.jsx (x2)
+10:07:45 PM [vite] (client) hmr update /src/App.jsx (x3)
+10:07:46 PM [vite] (client) hmr update /src/App.jsx (x4)
+10:07:49 PM [vite] (client) hmr update /src/App.jsx (x5)
+10:07:50 PM [vite] (client) hmr update /src/App.jsx (x6)
+10:07:52 PM [vite] (client) hmr update /src/App.jsx (x7)
+10:07:52 PM [vite] Internal server error:   × Expression expected
+    ╭─[C:/Web Development/Projects/Chat-app/client/src/App.jsx:9:1]
+  6 │      <BrowserRouter>
+  7 │       <Routes>
+  8 │         <Route path='/' element={<h1>Home</h1>}/>
+  9 │         <Route path='about' element= />
+    ·                                      ─
+ 10 │       </Routes>
+ 11 │      </BrowserRouter>
+ 12 │   )
+    ╰────
+  × Expression expected
+    ╭─[C:/Web Development/Projects/Chat-app/client/src/App.jsx:9:1]
+  6 │      <BrowserRouter>
+  7 │       <Routes>
+  8 │         <Route path='/' element={<h1>Home</h1>}/>
+  9 │         <Route path='about' element= />
+    ·                                       ─
+ 10 │       </Routes>
+ 11 │      </BrowserRouter>
+ 12 │   )
+    ╰────
+
+
+Caused by:
+    Syntax Error
+  Plugin: vite:react-swc
+  File: C:/Web Development/Projects/Chat-app/client/src/App.jsx:9:1
+
+10:07:55 PM [vite] (client) hmr update /src/App.jsx
+10:07:55 PM [vite] Internal server error:   × Expression expected
+    ╭─[C:/Web Development/Projects/Chat-app/client/src/App.jsx:9:1]
+  6 │      <BrowserRouter>
+  7 │       <Routes>
+  8 │         <Route path='/' element={<h1>Home</h1>}/>
+  9 │         <Route path='about' element={} />
+    ·                                        ─
+ 10 │       </Routes>
+ 11 │      </BrowserRouter>
+ 12 │   )
+    ╰────
+  × Expression expected
+    ╭─[C:/Web Development/Projects/Chat-app/client/src/App.jsx:9:1]
+  6 │      <BrowserRouter>
+  7 │       <Routes>
+  8 │         <Route path='/' element={<h1>Home</h1>}/>
+  9 │         <Route path='about' element={} />
+    ·                                         ─
+ 10 │       </Routes>
+ 11 │      </BrowserRouter>
+ 12 │   )
+    ╰────
+
+
+Caused by:
+    Syntax Error
+  Plugin: vite:react-swc
+  File: C:/Web Development/Projects/Chat-app/client/src/App.jsx:9:1
+
+10:07:59 PM [vite] (client) hmr update /src/App.jsx
+10:07:59 PM [vite] Internal server error:   × Expression expected
+    ╭─[C:/Web Development/Projects/Chat-app/client/src/App.jsx:11:1]
+  8 │         <Route path='/' element={<h1>Home</h1>}/>
+  9 │         <Route path='about' element={h1>
+ 10 │
+ 11 │         } />
+    ·         ─
+ 12 │       </Routes>
+ 13 │      </BrowserRouter>
+ 14 │   )
+    ╰────
+
+
+Caused by:
+    Syntax Error
+  Plugin: vite:react-swc
+  File: C:/Web Development/Projects/Chat-app/client/src/App.jsx:11:1
+
+10:08:00 PM [vite] (client) hmr update /src/App.jsx
+10:08:00 PM [vite] Internal server error:   × Expression expected
+    ╭─[C:/Web Development/Projects/Chat-app/client/src/App.jsx:9:1]
+  6 │      <BrowserRouter>
+  7 │       <Routes>
+  8 │         <Route path='/' element={<h1>Home</h1>}/>
+  9 │         <Route path='about' element={h1>} />
+    ·                                         ─
+ 10 │       </Routes>
+ 11 │      </BrowserRouter>
+ 12 │   )
+    ╰────
+
+
+Caused by:
+    Syntax Error
+  Plugin: vite:react-swc
+  File: C:/Web Development/Projects/Chat-app/client/src/App.jsx:9:1
+
+10:08:04 PM [vite] (client) hmr update /src/App.jsx
+10:08:09 PM [vite] (client) hmr update /src/App.jsx (x2)
