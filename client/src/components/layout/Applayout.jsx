@@ -3,8 +3,21 @@ import Header from './Header.jsx'
 import Title from '../shared/Title.jsx'
 
 import { Grid } from '@mui/material';
+import ChatList from '../specific/ChatList.jsx';
+import { sampleChats } from '../../constants/sampleData.js';
+import { useParams } from 'react-router-dom';
+import Profile from '../specific/Profile.jsx';
 const Applayout = () =>(WrappedComponent)=>{
   return (props)=>{
+
+    const params=useParams()
+    const chatId=params.chatId;
+    const handleDeleteChat=(e,_id,groupChat)=>{
+      e.preventDefault();
+      console.log("Delete Chat",_id,groupChat);
+    }
+
+
     return (
     <>
         <Title />
@@ -18,7 +31,11 @@ const Applayout = () =>(WrappedComponent)=>{
             sx={{
              display:{xs:"none",sm:"block"}
               }}>
-                First
+                <ChatList 
+                chats={sampleChats} 
+                chatId={chatId}
+                 handleDeleteChat={handleDeleteChat}
+                />
             </Grid>
 
             <Grid item 
@@ -41,7 +58,7 @@ const Applayout = () =>(WrappedComponent)=>{
               padding:"2rem",
               bgcolor:"rgb(0,0,0,0.85)",
               }}>
-             Third
+             <Profile/>
             </Grid>
         </Grid>
     </>
