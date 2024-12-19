@@ -6,13 +6,19 @@ import {
   KeyboardBackspace as KeyboardBackspaceIcon,
   Menu as MenuIcon
 } from '@mui/icons-material'
-import { Box, Button, Drawer, Grid, IconButton, Stack, TextField, Tooltip, Typography } from '@mui/material'
-import React, { memo, useEffect, useState } from 'react'
-import { matBlack } from '../constants/color.js';
+import { Backdrop, Box, Button, Drawer, Grid, IconButton, Stack, TextField, Tooltip, Typography } from '@mui/material'
+import React, { memo, Suspense, useEffect, useState,lazy } from 'react'
+import { bgGradient, matBlack } from '../constants/color.js';
 import { useNavigate,useSearchParams } from 'react-router-dom';
 import { Link } from '../components/styles/StyledComponents.jsx';
 import AvatarCard from '../components/shared/AvatarCard.jsx';
-import { sampleChats } from '../constants/sampleData.js';
+import { sampleChats, sampleUsers } from '../constants/sampleData.js';
+import UserItem from '../components/shared/UserItem.jsx';
+const ConfirmDeleteDialog=lazy(()=>import('../components/dialogs/ConfirmDeleteDialog.jsx'))
+const AddMemberDialog=lazy(()=>import('../components/dialogs/AddMemberDialog.jsx'))
+
+const isAddMember=false;
+
 
 const Groups = () => {
   const chatId=useSearchParams()[0].get("group")
@@ -26,7 +32,7 @@ const Groups = () => {
   const navigateBack=()=>{
     navigate("/")
   }
-  console.log(chatId);
+ 
   const handleMobile=()=>{
     setIsMobileMenuOpen((prev)=>!prev);
   }
@@ -51,9 +57,21 @@ const Groups = () => {
     console.log("Add Member");
   }
 
+  const deleteHandler=()=>{
+    console.log("Delete Handler");
+    closeConfirmDeleteHandler();
+  }
+
+  const removeMemberHandler=(id)=>{
+    console.log("Remove Member",id);
+  }
+
   useEffect(()=>{
-    setGroupName(`Group Name ${chatId}`);
-    setGroupNameUpdatedValue(`Group Name ${chatId}`);
+    if(chatId){
+      setGroupName(`Group Name ${chatId}`);
+      setGroupNameUpdatedValue(`Group Name ${chatId}`);
+
+    }
 
     return ()=>{
       setGroupName("");
@@ -161,10 +179,10 @@ const Groups = () => {
        display:{
         xs:"none",
         sm:"block"
-       }
+       },
+    
      }}
      sm={4}
-     bgcolor={"bisque"}
     >
      <GroupList myGroups={sampleChats} chatId={chatId}/>
     </Grid>
@@ -189,6 +207,7 @@ const Groups = () => {
      variant='body1'
      >Members
      </Typography>
+     
      <Stack
      maxWidth={"45rem"}
      width={"100%"}
@@ -199,11 +218,26 @@ const Groups = () => {
       md:"1rem 4rem"
      }}
      spacing={"2rem"}
-     bgcolor={"bisque"}
      height={"50vh"}
      overflow={"auto"}
      >
        {/* Members */}
+
+      {
+        sampleUsers.map((i)=>(
+          <UserItem 
+          user={i} 
+          key={i._id}
+          isAdded styling={{
+            boxShadow:"0 0 0.5rem rgba(0,0,0,0.2)",
+            padding:"1rem 2rem",
+            borderRadius:"1rem",
+          }}
+          handler={removeMemberHandler}
+           />
+        ))
+      }
+
      </Stack>
 
       {ButtonGroup}
@@ -212,8 +246,22 @@ const Groups = () => {
     }
     </Grid>
 
+    {isAddMember && <Suspense fallback={<Backdrop open/>}>
+           <AddMemberDialog/>
+      </Suspense>}
+
+
+
+
+
     {
-      confirmDeleteDialog && <>df</>
+      confirmDeleteDialog && <Suspense fallback={<Backdrop open/>}>
+        <ConfirmDeleteDialog 
+        open={confirmDeleteDialog}
+        handleClose={closeConfirmDeleteHandler} 
+        deleteHandler={deleteHandler}
+        />
+      </Suspense>
     }
 
     <Drawer
@@ -221,7 +269,8 @@ const Groups = () => {
         display:{
           xs:"block",
           sm:"none",
-        }
+        },
+       
       }}
      open={isMobileMenuOpen} onClose={handleMobileClose}>
      <GroupList w={"50vw"} myGroups={sampleChats} chatId={chatId}/>
@@ -233,7 +282,14 @@ const Groups = () => {
 
 
 const GroupList=({w="100%",myGroups=[],chatId})=>(
-  <Stack width={w} >
+  <Stack 
+  width={w}
+  sx={{
+    backgroundImage:bgGradient,
+    height:"100vh",
+    overflow:"auto"
+  }}
+   >
     {
       myGroups.length>0 ? (
         myGroups.map((group)=><GroupListItem group={group}

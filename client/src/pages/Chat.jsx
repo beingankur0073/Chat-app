@@ -1,4 +1,4 @@
-import React, { Fragment,useRef } from 'react'
+import React, { Fragment,lazy,useRef } from 'react'
 import Applayout from '../components/layout/Applayout.jsx'
 import { IconButton, Stack } from '@mui/material';
 import { grayColor,orange } from '../constants/color.js';
@@ -7,7 +7,6 @@ import {InputBox} from '../components/styles/StyledComponents.jsx'
 import {FileMenu} from '../components/dialogs/FileMenu.jsx'
 import { sampleMessages } from '../constants/sampleData.js';
 import MessageComponent from '../components/shared/MessageComponent.jsx';
-
 
 
 const user={

@@ -97,11 +97,6 @@ const Header = () => {
           onClick={navigateToGroup}
           />
 
-          <IconBtn
-          title={"Logout"}
-          icon={<LogoutIcon/>}
-          onClick={logoutHandler}
-          />
 
           <IconBtn
           title={"Notification"}
@@ -109,6 +104,12 @@ const Header = () => {
           onClick={openNotification}
           />
 
+          <IconBtn
+          title={"Logout"}
+          icon={<LogoutIcon/>}
+          onClick={logoutHandler}
+          />
+          
           </Box>
         </Toolbar>
         </AppBar>

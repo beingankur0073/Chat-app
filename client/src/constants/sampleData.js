@@ -16,7 +16,6 @@
     groupChat:true,
     members:["1","2"]
   }
-
 ]
 
 
