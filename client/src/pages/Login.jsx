@@ -67,13 +67,7 @@ const Login = () => {
                             onChange={username.changeHandler}
                            />
 
-                           {
-                            username.error && (
-                                <Typography color='error' variant='caption'>
-                                    {username.error}
-                                </Typography>
-                            )
-                           }
+                         
 
                             <TextField
                             required
@@ -186,6 +180,14 @@ const Login = () => {
                         value={username.value}
                         onChange={username.changeHandler}
                        />
+
+                        {
+                            username.error && (
+                                <Typography color='error' variant='caption'>
+                                    {username.error}
+                                </Typography>
+                            )
+                        }
 
                         <TextField
                         required
