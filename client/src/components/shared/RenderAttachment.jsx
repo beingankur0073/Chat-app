@@ -28,4 +28,4 @@ const RenderAttachment = (file,url) => {
     }
 }
 
-export default RenderAttachment
+export default RenderAttachment;

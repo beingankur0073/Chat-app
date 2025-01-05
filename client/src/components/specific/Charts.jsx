@@ -10,7 +10,11 @@ import {Chart as ChartJS,
     Legend,
     Tooltip,
     scales,
+    plugins,
 } from 'chart.js'
+import { orange, orangeLight, purple, purpleLight } from '../../constants/color.js';
+import { getLast7Days } from '../../lib/features.js';
+
 
 
 ChartJS.register(
@@ -24,6 +28,8 @@ ChartJS.register(
     Tooltip,
 );
 
+
+const labels=getLast7Days();
 
 const lineChartOptions={
     responsive:true,
@@ -51,33 +57,53 @@ const lineChartOptions={
     }
 }
 
-const LineChart = () => {
+const LineChart = ({value=[]}) => {
     const data={
-        labels:["January","February","March","April","May","June","July"],
+        labels,
         datasets:[
         {
-            data:[1,2,34,6],
+            data:value,
             label:"Revenue",
-            fill:false,
-            backgroundColor:"rgba(75,192,192,0.2)",
-            borderColor:"rgba(75,192,192,1)"
-        },
-        {
-            data:[1,22,45,6],
-            label:"Revenue 2",
             fill:true,
-            backgroundColor:"rgba(75,12,192,0.3)",
-            borderColor:"rgba(75,12,192,1)"
+            backgroundColor:purpleLight,
+            borderColor:purple
         },
+       
     ],
     }
   return <Line data={data} options={lineChartOptions}/>
 }
 
-const DoughnutChart = () => {
-    return (
-      <div>Charts</div>
-    )
+
+
+const doughnutChartOptions={
+    responsive:true,
+    plugins:{
+        legend:{
+            display:false,
+        },
+    },
+    cutout:120,
+}
+
+const DoughnutChart = ({value=[],labels=[]}) => {
+    const data={
+        labels,
+        datasets:[
+        {
+            data:value,
+            backgroundColor:[purpleLight,orangeLight],
+            hoverBackgroundColor:[purple,orange],
+            borderColor:[purple,orange],
+            offset:40,
+        },
+       
+    ],
+    }
+    return <Doughnut 
+    style={{zIndex:10}}
+    data={data} 
+    options={doughnutChartOptions}/>
   }
 
 export {LineChart,DoughnutChart}
