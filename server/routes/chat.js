@@ -1,6 +1,6 @@
 import express from 'express';
 import { isAuthticated } from '../middlewares/auth.js';
-import { newGroupChat } from '../controllers/chat.js';
+import { addMembers, getMyChats, getMyGroups, leaveGroup, newGroupChat, removeMember } from '../controllers/chat.js';
 
 const app=express.Router();
 
@@ -11,6 +11,19 @@ app.use(isAuthticated);
 
 app.post("/new",newGroupChat);
 
+app.get("/my",getMyChats);
 
+app.get("/my/groups",getMyGroups);
+
+app.put("/addmembers",addMembers);
+
+app.put("/removemember",removeMember);
+
+app.delete("/leave/:id",leaveGroup)
+
+// Send Attachments
+
+// Get Messages
+// Get chat Details,rename,delete
 
 export default app;
