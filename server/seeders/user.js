@@ -1,5 +1,5 @@
-import { faker } from "@faker-js/faker";
-import {User} from "../models/user.js"
+import { faker, simpleFaker } from "@faker-js/faker";
+import {User } from "../models/user.js"
 
 
 const createUser=async(numUsers)=>{
@@ -29,6 +29,8 @@ const createUser=async(numUsers)=>{
         process.exit(1);
     }
 }
+
+
 
 
 export {createUser}
