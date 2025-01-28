@@ -9,10 +9,7 @@ import {Message} from '../models/message.js'
 
 const newGroupChat=TryCatch(async(req,res,next)=>{
     const {name,members}=req.body;
-    if(members.length<2)
-        return next(
-            new ErrorHandler("Group chat must have atleast 3 members",400)
-        )
+
 
         const allMembers=[...members,req.user];
         await Chat.create({
@@ -89,7 +86,7 @@ const getMyGroups=TryCatch(async(req,res,next)=>{
 
 const addMembers=TryCatch(async(req,res,next)=>{
     const {chatId,members}=req.body;
-    if(!members || members.length<1) return next(new ErrorHandler("Please provide members",400));
+  
 
 
     const chat=await Chat.findById(chatId);
@@ -216,6 +213,12 @@ const leaveGroup=TryCatch(async(req,res,next)=>{
  const sendAttachments=TryCatch(async(req,res,next)=>{
 
     const {chatId}=req.body;
+    const files=req.files || []
+    if(files.length<1) return next(new ErrorHandler("Please Upload Attachment",400))
+    
+    if(files.length>5) return next(new ErrorHandler("Files can't be more than 5",400));
+
+
     const [chat,me]=await Promise.all([
         Chat.findById(chatId),
         User.findById(req.user,"name")
@@ -223,9 +226,8 @@ const leaveGroup=TryCatch(async(req,res,next)=>{
 
     
     if(!chat) return next(new ErrorHandler("Chat not found",404));
-    const files=req.files || []
-
-    if(files.length<1) return next(new ErrorHandler("Please provide attachments",400));
+   
+    
 
     // Upload files here
     const attachments=[]
