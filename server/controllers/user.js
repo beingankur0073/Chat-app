@@ -38,9 +38,10 @@ const login=TryCatch(
          const {username,password}=req.body;
          const user=await User.findOne({username}).select("+password");
      
-      if(!user) return next(new ErrorHandler("Inavalid Username or Password",404));
-     
+         if(!user) return next(new ErrorHandler("Inavalid Username or Password",404));
+        
          const isMatch=await compare(password,user.password);
+         
          if(!isMatch){
             return next(new ErrorHandler("Inavalid Username or Password",404));
          }
