@@ -1,8 +1,9 @@
 import { adminSecretKey } from "../app.js";
 import { ErrorHandler } from "../utils/utility.js";
 import jwt from 'jsonwebtoken'
+import { TryCatch } from "./error.js";
 
-const isAuthticated=(req,res,next)=>{
+const isAuthticated=TryCatch(async (req,res,next)=>{
     const token=req.cookies["chattu-token"];
     if(!token) return next(new ErrorHandler("Please login to access this route",401));
     
@@ -11,7 +12,7 @@ const isAuthticated=(req,res,next)=>{
     req.user=decodedData._id;
 
     next();
-}
+})
 
 
 const adminOnly=(req,res,next)=>{

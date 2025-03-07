@@ -12,6 +12,7 @@ app.post("/login",loginValidator(),validateHandler,login)
 
 // After here user must be logged in to access the routes
 app.use(isAuthticated);
+
 app.get("/me",getMyProfile)
 app.get("/logout",logout)
 app.get("/search",searchUser);

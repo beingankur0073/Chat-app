@@ -1,5 +1,7 @@
 import mongoose from "mongoose"
 import jwt from "jsonwebtoken"
+import {v4 as uuid} from 'uuid'
+import {v2 as cloudinary} from 'cloudinary'
 
 
 const cookieOptions={
@@ -33,8 +35,34 @@ const emitEvent=(req,event,users,data)=>{
     console.log("Emitting event",event)
 }
 
+const uploadFilesToCloudinary=async (files=[])=>{
+    //Upload files to cloudinary
+
+    const uploadPromises=files.map((file)=>{
+        return new Promise((resolve,reject)=>{
+            uploadFilesToCloudinary.uploader.upload(file.path,
+                {
+                    resource_type:"auto",
+                    public_id:uuid(),
+            },
+            (error,result)=>{
+                if(error) return reject(error)
+                    resolve(result);
+            })
+        })
+    })
+
+
+    try {
+        const results=await Promise.all(uploadPromises)
+    } catch (error) {
+        
+    }
+}
+
+
 const deleteFilesFromCloudinary=async (public_ids)=>{
     // Delete files from cloudinary
 }
 
-export {connectDB,sendToken,cookieOptions,emitEvent,deleteFilesFromCloudinary};
+export {connectDB,sendToken,cookieOptions,emitEvent,deleteFilesFromCloudinary,uploadFilesToCloudinary};
