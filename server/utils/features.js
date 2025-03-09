@@ -2,6 +2,7 @@ import mongoose from "mongoose"
 import jwt from "jsonwebtoken"
 import {v4 as uuid} from 'uuid'
 import {v2 as cloudinary} from 'cloudinary'
+import { getBase64 } from "../lib/helper.js"
 
 
 const cookieOptions={
@@ -37,10 +38,11 @@ const emitEvent=(req,event,users,data)=>{
 
 const uploadFilesToCloudinary=async (files=[])=>{
     //Upload files to cloudinary
-
+    
     const uploadPromises=files.map((file)=>{
         return new Promise((resolve,reject)=>{
-            uploadFilesToCloudinary.uploader.upload(file.path,
+            cloudinary.uploader.upload(
+                getBase64(file),
                 {
                     resource_type:"auto",
                     public_id:uuid(),
@@ -55,8 +57,16 @@ const uploadFilesToCloudinary=async (files=[])=>{
 
     try {
         const results=await Promise.all(uploadPromises)
-    } catch (error) {
-        
+
+        const formattedResults=results.map((result)=>({
+            public_id:result.public_id,
+            url:result.secure_url,
+        }))
+       
+        return formattedResults
+
+    } catch (err) {
+        throw new Error("Error uploading files to cloudinary",err)
     }
 }
 

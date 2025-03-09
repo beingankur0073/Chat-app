@@ -5,8 +5,9 @@ import LayoutLoader from './components/layout/Loaders.jsx'
 import axios from 'axios'
 import {server} from "./constants/config.js"
 import { useDispatch, useSelector } from 'react-redux'
-import { userNotExists } from './redux/reducers/auth.js'
+import { userExists, userNotExists } from './redux/reducers/auth.js'
 import {Toaster} from 'react-hot-toast'
+import { SocketProvider } from './socket.jsx'
 
 
 
@@ -33,8 +34,8 @@ const App = () => {
 
   useEffect(()=>{
    
-    axios.get(`${server}/api/v1/user/me`)
-    .then((res)=>console.log(res))
+    axios.get(`${server}/api/v1/user/me`,{withCredentials:true})
+    .then(({data})=>dispatch(userExists(data.user)))
     .catch((err)=>dispatch(userNotExists()))
 
   },[dispatch])
@@ -48,8 +49,13 @@ const App = () => {
   (
     <Suspense fallback={<LayoutLoader/>}>
      <BrowserRouter>
-      <Routes>
-        <Route element={<ProtectRoute user={user}/>}>
+      <Routes >
+
+        <Route element={
+          <SocketProvider>
+                  <ProtectRoute user={user}/>
+          </SocketProvider>
+          }>
             <Route path='/' element={<Home/>}/>
             <Route path='/chat/:chatId' element={<Chat/>} />
             <Route path='/groups' element={<Groups/>} />

@@ -9,6 +9,8 @@ import { server } from '../constants/config.js';
 import { useDispatch } from 'react-redux';
 import { userExists } from '../redux/reducers/auth.js';
 import toast from 'react-hot-toast';
+import axios from 'axios'
+
 const Login = () => {
     const [isLogin,setIsLogin]=useState(true);
     const toggleLogin=()=>setIsLogin((prev)=>!prev);
@@ -25,7 +27,7 @@ const Login = () => {
         e.preventDefault();
 
         const config={
-            withCredentails:true,
+            withCredentials:true,
             headers:{
                 "Content-Type":"application/json",
             }
@@ -33,7 +35,7 @@ const Login = () => {
 
      try {
            
-         const {data} =axios.post(`${server}/api/v1/user/login`,{
+         const {data} =await axios.post(`${server}/api/v1/user/login`,{
                username:username.value,
                password:password.value
            },config
@@ -51,28 +53,30 @@ const Login = () => {
 
 
         const formData=new FormData()
+
         formData.append("avatar",avatar.file)
         formData.append("name",name.value)
         formData.append("bio",bio.value)
         formData.append("username",username.value)
         formData.append("password",password.value)
 
+        console.log([...formData.entries()]); // ✅ Debug: Logs the form data content
+       
+
         const config={
-            withCredentails:true,
+            withCredentials:true,
             headers:{
-                "Content-Type":"application/json",
+                "Content-Type":"multipart/form-data",
             }
         }
 
         try {
-            const {data}= await axios.post(`${server}/api/v1/user/new`,formData,{
-                withCredentails:true,
-                config
-            })
+            const {data}= await axios.post(`${server}/api/v1/user/new`,formData,config)
 
             dispatch(userExists(true))
             toast.success(data.message)
         } catch (error) {
+         
             toast.error(error?.response?.data?.message || "Something went wrong")
         }
     }
@@ -263,7 +267,7 @@ const Login = () => {
                        color="primary"
                        type="submit"
                        fullWidth
-                       >Login</Button>
+                       >Sign up</Button>
 
                         <Typography textAlign={"center"} m={"1rem"}>OR</Typography>
 
