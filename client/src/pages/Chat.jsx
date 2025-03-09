@@ -11,6 +11,9 @@ import { getSocket } from '../socket.jsx';
 import { NEW_MESSAGE } from '../constants/events.js';
 import { useChatDetailsQuery, useGetMessagesQuery } from '../redux/api/api.js';
 import { useErrors, useSocketEvents } from '../hooks/hook.jsx';
+import {useInfiniteScrollTop} from '6pp'
+import { useDispatch } from 'react-redux';
+import { setIsFileMenu } from '../redux/reducers/misc.js';
 
 
 const user={
@@ -23,16 +26,27 @@ const Chat = ({chatId,user}) => {
 
 
   const containerRef=useRef(null);
-
   const socket=getSocket()
+  const dispatch=useDispatch()
 
   const [message,setMessage]=useState("")
   const [messages,setMessages]=useState([])
   const [page,setPage]=useState(1)
+  const [fileMenuAnchor,setIsFileMenuAnchor]=useState(null)
 
   const chatDetails=useChatDetailsQuery({chatId,skip:!chatId})
 
   const oldMessagesChunk=useGetMessagesQuery({chatId,page})
+
+
+  const {data:oldMessages,setData:setOldMessages}= useInfiniteScrollTop(
+    containerRef,
+    oldMessagesChunk.data?.totalPages,
+    page,
+    setPage,
+    oldMessagesChunk.data?.messages
+  )
+
 
   const errors=[
   {
@@ -45,9 +59,14 @@ const Chat = ({chatId,user}) => {
   }
 ]
 
-  console.log("oldMessageChunk",oldMessagesChunk.data)
+  
 
   const members=chatDetails?.data?.chat?.members
+
+  const handleFileOpen=(e)=>{
+    dispatch(setIsFileMenu(true))
+    setIsFileMenuAnchor(e.currentTarget)
+  }
 
   const submitHandler=(e)=>{
     e.preventDefault()
@@ -71,7 +90,7 @@ const Chat = ({chatId,user}) => {
   useSocketEvents(socket,eventHandler)
   useErrors(errors)
 
-  
+  const allMessages=[...oldMessages,...messages]
 
   return chatDetails.isLoading ? (<Skeleton/> ):
   (
@@ -88,14 +107,10 @@ const Chat = ({chatId,user}) => {
       overflowY:"auto",
     }}
     >
-      { !oldMessagesChunk.isLoading &&
-        oldMessagesChunk.data?.messages?.map((i)=>(
-          <MessageComponent key={i._id} message={i} user={user}/>
-        ))
-      }
+    
 
       {
-        messages.map((i)=>(
+        allMessages.map((i)=>(
           <MessageComponent key={i._id} message={i} user={user}/>
         ))
       }
@@ -122,7 +137,7 @@ const Chat = ({chatId,user}) => {
            left:"1.5rem",
            rotate:"30deg",
          }}
-         
+         onClick={handleFileOpen}
         >
           <AttachFileIcon/>
         </IconButton>
@@ -152,7 +167,7 @@ const Chat = ({chatId,user}) => {
       </Stack>
     </form>
 
-    <FileMenu />
+    <FileMenu anchorE1={fileMenuAnchor} chatId={chatId} />
 
     </Fragment>
   )
