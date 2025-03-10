@@ -6,7 +6,7 @@ import { AudioFile as AudioFileIcon, Image as ImageIcon, UploadFile as UploadFil
 import toast from 'react-hot-toast'
 import { useSendAttachmentsMutation } from '../../redux/api/api.js'
 
-export const FileMenu = ({anchorE1}) => {
+export const FileMenu = ({anchorE1,chatId}) => {
   const {isFileMenu}=useSelector(state=>state.misc)
   const dispatch=useDispatch()
 
@@ -33,6 +33,7 @@ export const FileMenu = ({anchorE1}) => {
     const files=Array.from(e.target.files)
 
     if(files.length<=0) return;
+    
     if(files.length>5) return toast.error(`You can only send 5 ${key} at a time`);
     dispatch(setUploadingLoader(true))
 

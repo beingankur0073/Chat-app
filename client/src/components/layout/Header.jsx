@@ -1,4 +1,4 @@
-import { AppBar, Box, IconButton, Toolbar, Tooltip, Typography,Backdrop } from '@mui/material'
+import { AppBar, Box, IconButton, Toolbar, Tooltip, Typography,Backdrop, Badge } from '@mui/material'
 import React, { Suspense, useState,lazy } from 'react'
 import { orange } from '../../constants/color.js'
 import 
@@ -18,6 +18,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { userNotExists } from '../../redux/reducers/auth.js'
 import { server } from '../../constants/config.js'
 import { setIsMobile, setIsNotification, setIsSearch } from '../../redux/reducers/misc.js'
+import { resetNotificationCount } from '../../redux/reducers/chat.js'
 const SearchDialog=lazy(()=> import("../specific/Search.jsx"));
 const NotificationDialog=lazy(()=> import("../specific/Notifications.jsx"));
 const NewGroupDialog=lazy(()=> import("../specific/NewGroup.jsx"));
@@ -34,7 +35,7 @@ const Header = () => {
   const dispatch=useDispatch();
 
   const {isSearch,isNotification}=useSelector(state=>state.misc)
-
+  const {notificationCount}=useSelector(state=>state.chat)
 
   const handleMobile=()=> dispatch(setIsMobile(true));
  
@@ -48,7 +49,10 @@ const Header = () => {
   }
 
 
-  const openNotification=()=> dispatch(setIsNotification(true))
+  const openNotification=()=> {
+    dispatch(resetNotificationCount())
+    dispatch(setIsNotification(true))
+  }
 
   const navigateToGroup=()=>navigate("/groups");
 
@@ -117,6 +121,7 @@ const Header = () => {
           title={"Notification"}
           icon={<NotificationIcon/>}
           onClick={openNotification}
+          value={notificationCount}
           />
 
           <IconBtn
@@ -154,11 +159,14 @@ const Header = () => {
 }
 
 
-const IconBtn=({title,icon,onClick})=>{
+const IconBtn=({title,icon,onClick,value})=>{
   return (
     <Tooltip title={title}>
     <IconButton color="inherit" size='large' onClick={onClick}>
-        {icon}
+        {
+          value ? <Badge badgeContent={value}>{icon}</Badge> : icon
+        }
+       
     </IconButton>
   </Tooltip>
   );

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useCallback, useEffect } from 'react'
 import Header from './Header.jsx'
 import Title from '../shared/Title.jsx'
 
@@ -11,8 +11,10 @@ import { useMyChatsQuery } from '../../redux/api/api.js';
 import { useDispatch, useSelector } from 'react-redux';
 import { setIsMobile } from '../../redux/reducers/misc.js';
 import toast from 'react-hot-toast';
-import { useErrors } from '../../hooks/hook.jsx';
+import { useErrors, useSocketEvents } from '../../hooks/hook.jsx';
 import { getSocket } from '../../socket.jsx';
+import { NEW_MESSAGE, NEW_MESSAGE_ALERT, NEW_REQUEST } from '../../constants/events.js';
+import { increamentNotification } from '../../redux/reducers/chat.js';
 const Applayout = () =>(WrappedComponent)=>{
   return (props)=>{
 
@@ -39,6 +41,17 @@ const Applayout = () =>(WrappedComponent)=>{
 
     const handleMobileClose=()=>dispatch(setIsMobile(false))
 
+    const newMessageAlertHandler=useCallback(()=>{},[])
+    
+    const newRequestHandler=useCallback(()=>{
+        dispatch(increamentNotification())
+    },[dispatch])
+
+    const eventHandlers={
+      [NEW_MESSAGE_ALERT]:newMessageAlertHandler,
+      [NEW_REQUEST]:newRequestHandler
+    }
+    useSocketEvents(socket,eventHandlers)
 
     return (
     <>

@@ -15,8 +15,11 @@ const fileFormat=(url="")=>{
     console.log(fileExt)
     return "file"
 }
-
-const transfromImage=(url="",width=100)=>url
+// /dpr_auto/w_200
+const transfromImage=(url="",width=100)=>{
+    const newUrl=url.replace("upload/",`upload/dpr_auto/w_${width}/`)
+    return newUrl
+}
 
 const getLast7Days=()=>{
     const currentDate=moment();

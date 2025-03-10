@@ -1,6 +1,6 @@
-import { ALERT, NEW_ATTACHMENT, NEW_MESSAGE_ALERT, REFETCH_CHATS } from "../constants/events.js";
+import { ALERT, NEW_ATTACHMENT, NEW_MESSAGE, NEW_MESSAGE_ALERT, REFETCH_CHATS } from "../constants/events.js";
 import { TryCatch } from "../middlewares/error.js";
-import { deleteFilesFromCloudinary, emitEvent } from "../utils/features.js";
+import { deleteFilesFromCloudinary, emitEvent, uploadFilesToCloudinary } from "../utils/features.js";
 import { ErrorHandler } from "../utils/utility.js";
 import {Chat} from '../models/chat.js'
 import { getOtherMember } from "../lib/helper.js";
@@ -234,7 +234,7 @@ const leaveGroup=TryCatch(async(req,res,next)=>{
     
 
     // Upload files here
-    const attachments=[]
+    const attachments=await uploadFilesToCloudinary(files)
     
     const messageForDB={
         content:"",
@@ -251,9 +251,10 @@ const leaveGroup=TryCatch(async(req,res,next)=>{
     }
 
     const message=await Message.create(messageForDB);
+    
     emitEvent(
         req,
-        NEW_ATTACHMENT,chat.members,{
+        NEW_MESSAGE,chat.members,{
         message:messageForRealtime,
         chatId,
     })

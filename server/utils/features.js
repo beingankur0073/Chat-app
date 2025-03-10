@@ -2,7 +2,8 @@ import mongoose from "mongoose"
 import jwt from "jsonwebtoken"
 import {v4 as uuid} from 'uuid'
 import {v2 as cloudinary} from 'cloudinary'
-import { getBase64 } from "../lib/helper.js"
+import { getBase64, getSockets } from "../lib/helper.js"
+
 
 
 const cookieOptions={
@@ -33,7 +34,9 @@ const sendToken=(res,user,code,message)=>{
 }
 
 const emitEvent=(req,event,users,data)=>{
-    console.log("Emitting event",event)
+    const io=req.app.get("io");
+    const userSocket=getSockets(users)
+    io.to(userSocket).emit(event,data)
 }
 
 const uploadFilesToCloudinary=async (files=[])=>{

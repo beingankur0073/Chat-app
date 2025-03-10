@@ -78,8 +78,19 @@ const Chat = ({chatId,user}) => {
     setMessage("")
   }
 
+  useEffect(()=>{
+
+    return ()=>{
+      setMessages([])
+      setMessage("")
+      setOldMessages([]);
+      setPage(1)
+    }
+    
+  },[chatId])
 
   const newMessagesHandler=useCallback((data)=>{
+    if(data.chatId!==chatId) return
     setMessages((prev)=>[...prev,data.message])
   },[])
 
