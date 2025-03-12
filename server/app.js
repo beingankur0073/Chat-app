@@ -18,6 +18,7 @@ import cors from 'cors'
 import {v2 as cloudinary} from 'cloudinary'
 import { corsOptions } from './constants/config.js';
 import { socketAuthenicator } from './middlewares/auth.js';
+import { START_TYPING, STOP_TYPING } from '../client/src/constants/events.js';
 
 
 
@@ -123,6 +124,24 @@ io.on("connection",(socket)=>{
         } catch (error) {
             console.log(error)
         }
+    })
+
+    socket.on(START_TYPING,({members,chatId})=>{
+        console.log("typing",chatId)
+
+        const membersSocket=getSockets(members)
+
+        socket.to(membersSocket).emit(START_TYPING,{chatId})
+
+    })
+
+    socket.on(STOP_TYPING,({members,chatId})=>{
+        console.log("stop-typing",chatId)
+
+        const membersSocket=getSockets(members)
+
+        socket.to(membersSocket).emit(STOP_TYPING,{chatId})
+
     })
 
     socket.on("disconnect",()=>{

@@ -211,7 +211,7 @@ const leaveGroup=TryCatch(async(req,res,next)=>{
 
 
  const sendAttachments=TryCatch(async(req,res,next)=>{
-
+    console.log("test")
     const {chatId}=req.body;
     const files=req.files || []
 

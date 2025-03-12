@@ -8,13 +8,14 @@ import {FileMenu} from '../components/dialogs/FileMenu.jsx'
 import { sampleMessages } from '../constants/sampleData.js';
 import MessageComponent from '../components/shared/MessageComponent.jsx';
 import { getSocket } from '../socket.jsx';
-import { NEW_MESSAGE } from '../constants/events.js';
+import { NEW_MESSAGE, START_TYPING, STOP_TYPING } from '../constants/events.js';
 import { useChatDetailsQuery, useGetMessagesQuery } from '../redux/api/api.js';
 import { useErrors, useSocketEvents } from '../hooks/hook.jsx';
 import {useInfiniteScrollTop} from '6pp'
 import { useDispatch } from 'react-redux';
 import { setIsFileMenu } from '../redux/reducers/misc.js';
-
+import { removeNewMessagesAlert } from '../redux/reducers/chat.js';
+ import {TypingLoader} from "../components/layout/Loaders.jsx"
 
 const user={
   _id:"sdfsdfsdf",
@@ -33,6 +34,12 @@ const Chat = ({chatId,user}) => {
   const [messages,setMessages]=useState([])
   const [page,setPage]=useState(1)
   const [fileMenuAnchor,setIsFileMenuAnchor]=useState(null)
+
+
+  const [IamTyping,setIamTyping]=useState(false)
+  const [userTyping,setUserTyping]=useState(false)
+  const typingTimeout=useRef(null)
+
 
   const chatDetails=useChatDetailsQuery({chatId,skip:!chatId})
 
@@ -63,6 +70,25 @@ const Chat = ({chatId,user}) => {
 
   const members=chatDetails?.data?.chat?.members
 
+
+  const messageOnChange=(e)=>{
+    setMessage(e.target.value)
+
+
+    if(!IamTyping){
+      socket.emit(START_TYPING,{members,chatId})
+      setIamTyping(true)
+    }
+
+    if(typingTimeout.current) clearTimeout(typingTimeout.current)
+
+   typingTimeout.current= setTimeout(()=>{
+      socket.emit(STOP_TYPING,{members,chatId})
+      setIamTyping(false)
+    },[2000])
+
+  }
+
   const handleFileOpen=(e)=>{
     dispatch(setIsFileMenu(true))
     setIsFileMenuAnchor(e.currentTarget)
@@ -80,6 +106,8 @@ const Chat = ({chatId,user}) => {
 
   useEffect(()=>{
 
+    dispatch(removeNewMessagesAlert(chatId))
+
     return ()=>{
       setMessages([])
       setMessage("")
@@ -89,14 +117,37 @@ const Chat = ({chatId,user}) => {
     
   },[chatId])
 
-  const newMessagesHandler=useCallback((data)=>{
+  const newMessagesListner=useCallback((data)=>{
     if(data.chatId!==chatId) return
+
     setMessages((prev)=>[...prev,data.message])
-  },[])
+  },[chatId])
+
+
+
+  const startTypingListener=useCallback((data)=>{
+    if(data.chatId!==chatId) return
+     setUserTyping(true)
+  },[chatId])
+
+
+
+  const stopTypingListener=useCallback((data)=>{
+    if(data.chatId!==chatId) return
+
+    
+     setUserTyping(false)
+  },[chatId])
+
+
 
   
 
-  const eventHandler={[NEW_MESSAGE]:newMessagesHandler}
+  const eventHandler={
+    [NEW_MESSAGE]:newMessagesListner,
+    [START_TYPING]:startTypingListener,
+    [STOP_TYPING]:stopTypingListener
+  }
   
   useSocketEvents(socket,eventHandler)
   useErrors(errors)
@@ -125,6 +176,12 @@ const Chat = ({chatId,user}) => {
           <MessageComponent key={i._id} message={i} user={user}/>
         ))
       }
+      
+
+      {userTyping && <TypingLoader/>}
+
+      <div/>
+
 
     </Stack>
 
@@ -154,9 +211,10 @@ const Chat = ({chatId,user}) => {
         </IconButton>
 
 
-        <InputBox placeholder='Type Messages Here...' 
+        <InputBox 
+        placeholder='Type Messages Here...' 
         value={message}
-        onChange={(e)=>setMessage(e.target.value)}
+        onChange={messageOnChange}
         />
 
         <IconButton 

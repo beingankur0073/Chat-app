@@ -53,10 +53,6 @@ export const FileMenu = ({anchorE1,chatId}) => {
       if(res.data) toast.success(`${key} sent successfully`,{id:toastId})
       else toast.error(`Failed to send ${key}`,{ id:toastId}) 
       // Fetching Here
-
-
-
-
       
     } catch (error) {
       toast.error(error,{id:toastId})
@@ -133,7 +129,7 @@ export const FileMenu = ({anchorE1,chatId}) => {
           <input 
           type="file" 
           multiple 
-          accept='video/mp4, video/webm, video/ogg'
+          accept='video/*'
           style={{display:"none"}}
           onChange={(e)=>fileChangeHandler(e,"Videos")}
           ref={videoRef}

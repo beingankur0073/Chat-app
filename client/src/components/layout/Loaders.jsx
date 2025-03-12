@@ -43,4 +43,17 @@ const LayoutLoader = () => {
   )
 }
 
-export default LayoutLoader
+
+const TypingLoader=()=>{
+  return <Stack
+    spacing={"0.5rem"}
+    direction={"row"}
+    padding={"0.5rem"}
+    justifyContent={"center"}
+    
+  >
+    
+  </Stack>
+}
+
+export {LayoutLoader,TypingLoader}

@@ -14,7 +14,12 @@ import toast from 'react-hot-toast';
 import { useErrors, useSocketEvents } from '../../hooks/hook.jsx';
 import { getSocket } from '../../socket.jsx';
 import { NEW_MESSAGE, NEW_MESSAGE_ALERT, NEW_REQUEST } from '../../constants/events.js';
-import { increamentNotification } from '../../redux/reducers/chat.js';
+import { increamentNotification, setNewMessagesAlert } from '../../redux/reducers/chat.js';
+import { getOrSaveFromStorage } from '../../lib/features.js';
+
+
+
+
 const Applayout = () =>(WrappedComponent)=>{
   return (props)=>{
 
@@ -28,9 +33,20 @@ const Applayout = () =>(WrappedComponent)=>{
     console.log(socket.id)
     const {isMobile}=useSelector((state)=>state.misc)
     const {user}=useSelector((state)=>state.auth)
+    const {newMessagesAlert}=useSelector((state)=>state.chat)
 
-    const {isLoading,data,isError,error,refetch}=useMyChatsQuery("")
+    console.log("newMessagesAlert",newMessagesAlert)
+
+    const {isLoading,data,isError,error}=useMyChatsQuery("")
     useErrors([{isError,error}])
+
+
+    useEffect(()=>{
+      getOrSaveFromStorage({key:NEW_MESSAGE_ALERT,value:newMessagesAlert});
+
+    },[newMessagesAlert])
+
+
 
    
 
@@ -41,7 +57,17 @@ const Applayout = () =>(WrappedComponent)=>{
 
     const handleMobileClose=()=>dispatch(setIsMobile(false))
 
-    const newMessageAlertHandler=useCallback(()=>{},[])
+
+
+
+    const newMessageAlertHandler=useCallback((data)=>{
+      if(data.chatId===chatId) return
+      dispatch(setNewMessagesAlert(data))
+    },[chatId])
+
+
+
+
     
     const newRequestHandler=useCallback(()=>{
         dispatch(increamentNotification())
@@ -66,6 +92,7 @@ const Applayout = () =>(WrappedComponent)=>{
                 chats={data?.chats}
                 chatId={chatId}
                 handleDeleteChat={handleDeleteChat}
+                newMessagesAlert={newMessagesAlert}
               />
             </Drawer>
           )
@@ -88,7 +115,7 @@ const Applayout = () =>(WrappedComponent)=>{
                     chats={data?.chats} 
                     chatId={chatId}
                      handleDeleteChat={handleDeleteChat}
-                     
+                     newMessagesAlert={newMessagesAlert}
                     />
                   )
                 }
