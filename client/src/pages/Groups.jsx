@@ -14,6 +14,9 @@ import { Link } from '../components/styles/StyledComponents.jsx';
 import AvatarCard from '../components/shared/AvatarCard.jsx';
 import { sampleChats, sampleUsers } from '../constants/sampleData.js';
 import UserItem from '../components/shared/UserItem.jsx';
+import { useMyChatsQuery, useMyGroupsQuery } from '../redux/api/api.js';
+import { useErrors } from '../hooks/hook.jsx';
+import { LayoutLoader } from '../components/layout/Loaders.jsx';
 const ConfirmDeleteDialog=lazy(()=>import('../components/dialogs/ConfirmDeleteDialog.jsx'))
 const AddMemberDialog=lazy(()=>import('../components/dialogs/AddMemberDialog.jsx'))
 
@@ -23,11 +26,27 @@ const isAddMember=false;
 const Groups = () => {
   const chatId=useSearchParams()[0].get("group")
   const navigate=useNavigate();
+
+
+  const myGroups=useMyGroupsQuery("")
+
+  console.log("group data",myGroups)
+
+
   const [isMobileMenuOpen,setIsMobileMenuOpen]=useState(false);
   const [isEdit,setIsEdit]=useState(false);
   const [confirmDeleteDialog,setConfirmDeleteDialog]=useState(false);
   const [groupName,setGroupName]=useState("")
   const [groupNameUpdatedValue,setGroupNameUpdatedValue]=useState("")
+
+
+  const errors=[
+    {isError:myGroups.isError,error:myGroups.error}
+  ];
+  ;
+  
+
+  useErrors(errors)
 
   const navigateBack=()=>{
     navigate("/")
@@ -171,7 +190,7 @@ const Groups = () => {
   </Stack>)
 
 
-  return (
+  return myGroups.isLoading ? <LayoutLoader/> : (
    <Grid container height={"100vh"}>
     <Grid 
      item
@@ -184,7 +203,7 @@ const Groups = () => {
      }}
      sm={4}
     >
-     <GroupList myGroups={sampleChats} chatId={chatId}/>
+     <GroupList myGroups={myGroups?.data?.groups} chatId={chatId}/>
     </Grid>
 
     <Grid item xs={12} sm={8} 
@@ -273,7 +292,10 @@ const Groups = () => {
        
       }}
      open={isMobileMenuOpen} onClose={handleMobileClose}>
-     <GroupList w={"50vw"} myGroups={sampleChats} chatId={chatId}/>
+     <GroupList 
+     w={"50vw"} 
+     myGroups={myGroups?.data?.groups} 
+     chatId={chatId}/>
     </Drawer>
 
    </Grid>

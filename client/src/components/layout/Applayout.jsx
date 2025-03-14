@@ -38,6 +38,7 @@ const Applayout = () =>(WrappedComponent)=>{
     console.log("newMessagesAlert",newMessagesAlert)
 
     const {isLoading,data,isError,error}=useMyChatsQuery("")
+
     useErrors([{isError,error}])
 
 
@@ -77,6 +78,8 @@ const Applayout = () =>(WrappedComponent)=>{
       [NEW_MESSAGE_ALERT]:newMessageAlertHandler,
       [NEW_REQUEST]:newRequestHandler
     }
+
+    
     useSocketEvents(socket,eventHandlers)
 
     return (

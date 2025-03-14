@@ -53,6 +53,8 @@ const getMyChats=TryCatch(async(req,res,next)=>{
                     },[]),
                 }
             })
+            console.log("jjjll",groups)
+
             
             return res.status(200).json({
                 success:true,
@@ -76,6 +78,7 @@ const getMyGroups=TryCatch(async(req,res,next)=>{
         avatar:members.slice(0,3).map(({avatar})=>avatar.url),
     }))
 
+    console.log("jjjll",groups)
     return res.status(200).json({
         success:true,
         groups,

@@ -8,7 +8,7 @@ import {FileMenu} from '../components/dialogs/FileMenu.jsx'
 import { sampleMessages } from '../constants/sampleData.js';
 import MessageComponent from '../components/shared/MessageComponent.jsx';
 import { getSocket } from '../socket.jsx';
-import { NEW_MESSAGE, START_TYPING, STOP_TYPING } from '../constants/events.js';
+import { ALERT, NEW_MESSAGE, START_TYPING, STOP_TYPING } from '../constants/events.js';
 import { useChatDetailsQuery, useGetMessagesQuery } from '../redux/api/api.js';
 import { useErrors, useSocketEvents } from '../hooks/hook.jsx';
 import {useInfiniteScrollTop} from '6pp'
@@ -27,6 +27,9 @@ const Chat = ({chatId,user}) => {
 
 
   const containerRef=useRef(null);
+  const bottomRef=useRef(null)
+
+
   const socket=getSocket()
   const dispatch=useDispatch()
 
@@ -117,6 +120,14 @@ const Chat = ({chatId,user}) => {
     
   },[chatId])
 
+
+
+
+
+  useEffect(()=>{
+    if(bottomRef.current) bottomRef.current.scrollIntoView({behavior:"smooth"})
+  },[messages])
+
   const newMessagesListner=useCallback((data)=>{
     if(data.chatId!==chatId) return
 
@@ -141,9 +152,26 @@ const Chat = ({chatId,user}) => {
 
 
 
+  const alertListener=useCallback((content)=>{
+     const messageForAlert={
+            content,
+            sender:{
+                _id:"kdjsjhsjhsjhsjdhdiuwidu",
+                name:"Admin",
+                },
+                chat:chatId,
+                createdAt:new Date().toISOString(),
+            }
+
+      setMessages((prev)=>[...prev,messageForAlert])
+  },[chatId])
+
+
+
   
 
   const eventHandler={
+    [ALERT]:alertListener,
     [NEW_MESSAGE]:newMessagesListner,
     [START_TYPING]:startTypingListener,
     [STOP_TYPING]:stopTypingListener
@@ -180,7 +208,7 @@ const Chat = ({chatId,user}) => {
 
       {userTyping && <TypingLoader/>}
 
-      <div/>
+      <div ref={bottomRef}/>
 
 
     </Stack>
