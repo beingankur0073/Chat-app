@@ -1,0 +1,5 @@
+{
+    "version":2,
+    "route":"/(.*)",
+    "dest":"/index.html"
+}
