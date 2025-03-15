@@ -5,6 +5,7 @@ import { transfromImage } from '../../lib/features.js'
 
 const UserItem = ({user,handler,handlerIsLoading,isAdded=false,styling={}}) => {
     const {name,_id,avatar}=user
+  
   return (
     <ListItem>
    <Stack 
@@ -16,6 +17,7 @@ const UserItem = ({user,handler,handlerIsLoading,isAdded=false,styling={}}) => {
     >
 
      <Avatar src={transfromImage(avatar)}/>
+
      <Typography
       variant='body1'
       sx={{

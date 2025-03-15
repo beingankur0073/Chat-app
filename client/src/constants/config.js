@@ -1,4 +1,4 @@
 export const server=import.meta.env.VITE_SERVER;
 
-
-// FIX alert Listener,Add Refetch Listner
+// No user info after login 
+// Add loading and disable button disable the register button
