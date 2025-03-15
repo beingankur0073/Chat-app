@@ -1,5 +1,7 @@
 {
     "version":2,
-    "route":"/(.*)",
-    "dest":"/index.html"
+    "rewrites":[{
+        "source":"/(.*)",
+        "dest":"/index.html"
+    }]
 }
