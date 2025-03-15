@@ -8,7 +8,7 @@ import {FileMenu} from '../components/dialogs/FileMenu.jsx'
 import { sampleMessages } from '../constants/sampleData.js';
 import MessageComponent from '../components/shared/MessageComponent.jsx';
 import { getSocket } from '../socket.jsx';
-import { ALERT, NEW_MESSAGE, START_TYPING, STOP_TYPING } from '../constants/events.js';
+import { ALERT, CHAT_JOINED, CHAT_LEAVED, NEW_MESSAGE, START_TYPING, STOP_TYPING } from '../constants/events.js';
 import { useChatDetailsQuery, useGetMessagesQuery } from '../redux/api/api.js';
 import { useErrors, useSocketEvents } from '../hooks/hook.jsx';
 import {useInfiniteScrollTop} from '6pp'
@@ -110,7 +110,7 @@ const Chat = ({chatId,user}) => {
   }
 
   useEffect(()=>{
-
+    socket.emit(CHAT_JOINED,{userId:user._id,members})
     dispatch(removeNewMessagesAlert(chatId))
 
     return ()=>{
@@ -118,6 +118,7 @@ const Chat = ({chatId,user}) => {
       setMessage("")
       setOldMessages([]);
       setPage(1)
+      socket.emit(CHAT_LEAVED,{userId:user._id,members})
     }
     
   },[chatId])

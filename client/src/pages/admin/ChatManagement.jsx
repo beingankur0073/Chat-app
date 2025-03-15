@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import AdminLayout from '../../components/layout/AdminLayout.jsx'
 import Table from '../../components/shared/Table.jsx'
-import { Avatar,Stack } from '@mui/material';
+import { Avatar,Skeleton,Stack } from '@mui/material';
 import { dashboardData } from '../../constants/sampleData.js';
 import { transfromImage } from '../../lib/features.js';
 import AvatarCard from '../../components/shared/AvatarCard.jsx';
+import { useGetAdminChatsQuery } from '../../redux/api/api.js';
+import { useErrors } from '../../hooks/hook.jsx';
 
 
 
@@ -31,6 +33,13 @@ const columns=[
   headerName:"Name",
   headerClassName:"table-header",
   width:300,
+},
+
+{
+  field:"groupChat",
+  headerName:"Group",
+  headerClassName:"table-header",
+  width:100,
 },
 
 {
@@ -74,23 +83,38 @@ const columns=[
 ];
 
 const ChatManagement = () => {
+  const {loading,data,error}=useGetAdminChatsQuery()
+
+
+  const {stats}=data||[]
+  useErrors([{isError:error,error:error}])
   const [rows,setRows]=useState([]);
 
   useEffect(()=>{
-    setRows(dashboardData.chats.map(i=>({
-      ...i,
-      id:i._id,
-      avatar:i.avatar.map((i)=>transfromImage(i,50)),
-      members:i.members.map((i)=>transfromImage(i.avatar,50)),
-      creator:{
-        name:i.creator.name,
-        avatar:transfromImage(i.creator.avatar,50),
-      }
-    })))
-  },[])
+
+    if(data){
+      setRows(data.chats.map(i=>({
+        ...i,
+        id:i._id,
+        avatar:i.avatar.map((i)=>transfromImage(i,50)),
+        members:i.members.map((i)=>transfromImage(i.avatar,50)),
+        creator:{
+          name:i.creator.name,
+          avatar:transfromImage(i.creator.avatar,50),
+        }
+      })))
+
+    }
+  },[data])
+
   return (
     <AdminLayout>
-       <Table heading={"All Chats"} columns={columns} rows={rows}/>
+      {
+        loading ? <Skeleton height={"100vh"}/> : (
+          <Table heading={"All Chats"} columns={columns} rows={rows}/>
+        )
+      }
+       
     </AdminLayout>
   )
 }

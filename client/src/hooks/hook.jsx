@@ -10,7 +10,7 @@ const useErrors=(errors=[])=>{
 
             if(isError) {
                 if(fallback) fallback()
-                else toast.error(error?.data?.message || "Somethi went wrong")
+                else toast.error(error?.data?.message || "Something went wrong")
                 }      
         })
     },[errors])

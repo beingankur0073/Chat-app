@@ -148,6 +148,7 @@ const allMessages=TryCatch(async(req,res)=>{
 
 const getDashboardStats=TryCatch(async(req,res)=>{
 
+
     const [groupsCount,usersCount,messagesCount,totalChatsCount]=await Promise.all([
         Chat.countDocuments({groupChat:true}),
         User.countDocuments(),
@@ -184,7 +185,7 @@ last7DaysMessages.forEach(message=>{
         messagesChart:messages
     }
     
-    
+        console.log("hello",stats)
         return res.status(200).json({
             status:"success",
             stats,

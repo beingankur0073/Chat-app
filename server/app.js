@@ -11,14 +11,14 @@ import userRoute from './routes/user.js'
 import chatRoute from './routes/chat.js'
 import adminRoute from './routes/admin.js'
 import { createMessages, createSingleChats } from './seeders/chat.js';
-import { NEW_MESSAGE, NEW_MESSAGE_ALERT } from './constants/events.js';
+import { NEW_MESSAGE, NEW_MESSAGE_ALERT, ONLINE_USERS } from './constants/events.js';
 import { getSockets } from './lib/helper.js';
 import { Message } from './models/message.js';
 import cors from 'cors'
 import {v2 as cloudinary} from 'cloudinary'
 import { corsOptions } from './constants/config.js';
 import { socketAuthenicator } from './middlewares/auth.js';
-import { START_TYPING, STOP_TYPING } from '../client/src/constants/events.js';
+import { CHAT_JOINED, CHAT_LEAVED, START_TYPING, STOP_TYPING } from '../client/src/constants/events.js';
 
 
 
@@ -31,6 +31,7 @@ const port=process.env.PORT || 3000;
 const envMode=process.env.NODE_ENV.trim() || "PRODUCTION";
 const adminSecretKey=process.env.ADMIN_SECRET_KEY||"adsasdsdfsdfsdfd";
 const userSocketIDs=new Map();
+const onlineUsers=new Set()
 
 connectDB(mongoURI)
 
@@ -88,7 +89,7 @@ io.on("connection",(socket)=>{
     console.log(user)
 
     userSocketIDs.set(user._id.toString(),socket.id);
-    console.log(userSocketIDs);
+    
     
 
     socket.on(NEW_MESSAGE,async({chatId,members,message})=>{
@@ -144,9 +145,34 @@ io.on("connection",(socket)=>{
 
     })
 
+
+    socket.on(CHAT_JOINED,({userId,members})=>{
+        onlineUsers.add(userId.toString())
+        
+       if(members) {
+        const membersSocket=getSockets(members)
+        io.to(membersSocket).emit(ONLINE_USERS,Array.from(onlineUsers))
+       }
+    })
+
+    socket.on(CHAT_LEAVED,({userId,members})=>{
+        onlineUsers.delete(userId.toString())
+
+        if(members) {
+            const membersSocket=getSockets(members)
+            io.to(membersSocket).emit(ONLINE_USERS,Array.from(onlineUsers))
+           }
+    })
+
+    
+
+
+
     socket.on("disconnect",()=>{
         console.log("user disconnected");
         userSocketIDs.delete(user._id.toString())
+        onlineUsers.delete(user._id.toString())
+        socket.broadcast.emit(ONLINE_USERS,Array.from(onlineUsers))
     })
 })
 

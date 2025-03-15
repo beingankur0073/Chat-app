@@ -175,6 +175,44 @@ const api=createApi({
         }),
 
 
+        getAdminStats:builder.query({
+            query:()=>({
+                url:`admin/stats`,
+                credentials:"include"
+            }),
+            
+        }),
+
+        getAdminUsers:builder.query({
+            query:()=>({
+                url:`admin/users`,
+                credentials:"include"
+            }),
+            
+        }),
+
+
+        getAdminChats:builder.query({
+            query:()=>({
+                url:`admin/chats`,
+                credentials:"include"
+            }),
+            
+        }),
+
+        getAdminMessages:builder.query({
+            query:()=>({
+                url:`admin/messages`,
+                credentials:"include"
+            }),
+            
+        }),
+
+
+
+
+
+
     })
 
 
@@ -197,5 +235,9 @@ export const {
     useRemoveGroupMemberMutation,
     useAddGroupMemberMutation,
     useDeleteChatMutation,
-    useLeaveGroupMutation
+    useLeaveGroupMutation,
+    useGetAdminStatsQuery,
+    useGetAdminUsersQuery,
+    useGetAdminChatsQuery,
+    useGetAdminMessagesQuery
 }=api;

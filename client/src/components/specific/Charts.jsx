@@ -58,6 +58,7 @@ const lineChartOptions={
 }
 
 const LineChart = ({value=[]}) => {
+    console.log(value)
     const data={
         labels,
         datasets:[

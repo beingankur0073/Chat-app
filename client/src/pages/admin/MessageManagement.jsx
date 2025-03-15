@@ -4,8 +4,10 @@ import Table from '../../components/shared/Table.jsx'
 import { dashboardData } from '../../constants/sampleData.js';
 import {fileFormat, transfromImage} from '../../lib/features.js'
 import moment from 'moment';
-import { Avatar,Stack,Box } from '@mui/material';
+import { Avatar,Stack,Box, Skeleton } from '@mui/material';
 import RenderAttachment from '../../components/shared/RenderAttachment.jsx'
+import { useGetAdminMessagesQuery } from '../../redux/api/api.js';
+import { useErrors } from '../../hooks/hook.jsx';
 
 const columns=[
   {
@@ -90,23 +92,38 @@ const columns=[
 
 
 const MessageManagement = () => {
+
+   const {loading,data,error}=useGetAdminMessagesQuery()
+  
+  
+    const {stats}=data||[]
+    useErrors([{isError:error,error:error}])
+
+
   const [rows,setRows]=useState([]);
   useEffect(()=>{
-    setRows(dashboardData.messages.map((i)=>({
-      ...i,
-      id:i._id,
-      sender:{
-        name:i.sender.name,
-        avatar:transfromImage(i.sender.avatar,50),
-      },
-      createdAt:moment(i.createdAt).format("MMMM Do YYYY, h:mm:ss a"),
+    if(data){
+      setRows(data.messages.map((i)=>({
+        ...i,
+        id:i._id,
+        sender:{
+          name:i.sender.name,
+          avatar:transfromImage(i.sender.avatar,50),
+        },
+        createdAt:moment(i.createdAt).format("MMMM Do YYYY, h:mm:ss a"),
+      }
+      )));
+
     }
-    )));
-  },[])
+  },[data])
 
   return (
     <AdminLayout>
-    <Table heading={"All Messages"} columns={columns} rows={rows} rowHeight={200}/>
+      {
+        loading ? <Skeleton height={"100vh"}/> : <Table heading={"All Messages"} columns={columns} rows={rows} rowHeight={200}/>
+
+      }
+    
 </AdminLayout>
   )
 }

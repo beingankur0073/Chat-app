@@ -1,9 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import AdminLayout from '../../components/layout/AdminLayout.jsx'
 import Table from '../../components/shared/Table.jsx'
-import { Avatar } from '@mui/material';
+import { Avatar, Skeleton } from '@mui/material';
 import { dashboardData } from '../../constants/sampleData.js';
 import { transfromImage } from '../../lib/features.js';
+import { useFetchData } from '6pp';
+import { server } from '../../constants/config.js';
+import { useErrors } from '../../hooks/hook.jsx';
+import { useGetAdminUsersQuery } from '../../redux/api/api.js';
 
 
 
@@ -56,18 +60,29 @@ const columns=[
 ];
 
 const UserManagement = () => {
+
+  const {loading,data,error}=useGetAdminUsersQuery()
+  const {stats}=data||[]
+  useErrors([{isError:error,error:error}])
+  console.log(error)
   const [rows,setRows]=useState([]);
 
   useEffect(()=>{
-    setRows((dashboardData.users.map((i)=>({
-      ...i,
-      id:i._id,
-      avatar:transfromImage(i.avatar,50),
-    }))));
-  },[])
+    if(data){
+      setRows((data.users.map((i)=>({
+        ...i,
+        id:i._id,
+        avatar:transfromImage(i.avatar,50),
+      }))));
+
+    }
+  },[data])
   return (
     <AdminLayout>
-       <Table heading={"All user"} columns={columns} rows={rows}/>
+
+      {
+        loading ?(<Skeleton height={"100vh"}/>) :  <Table heading={"All user"} columns={columns} rows={rows}/>
+      }
     </AdminLayout>
   )
 }
