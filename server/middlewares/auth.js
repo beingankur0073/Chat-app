@@ -7,6 +7,7 @@ import { CHATTU_TOKEN, corsOptions } from "../constants/config.js"
 
 const isAuthticated=TryCatch(async (req,res,next)=>{
     const token=req.cookies[CHATTU_TOKEN];
+    console.log("Token:", token); // Debugging line to check the token value
     if(!token) return next(new ErrorHandler("Please login to access this route",401));
     
 

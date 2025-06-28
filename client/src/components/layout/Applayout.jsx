@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useRef, useState } from 'react'
 import Header from './Header.jsx'
 import Title from '../shared/Title.jsx'
 
-import { Drawer, Grid, Skeleton } from '@mui/material';
+import { Drawer, Grid, Skeleton, useMediaQuery, useTheme } from '@mui/material';
 import ChatList from '../specific/ChatList.jsx';
 import { sampleChats } from '../../constants/sampleData.js';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -18,167 +18,139 @@ import { increamentNotification, setNewMessagesAlert } from '../../redux/reducer
 import { getOrSaveFromStorage } from '../../lib/features.js';
 import DeleteChatMenu from '../dialogs/DeleteChatMenu.jsx';
 
+const Applayout = () => (WrappedComponent) => {
+  return (props) => {
+    const params = useParams();
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
+    const chatId = params.chatId;
+    const deleteMenuAnchor = useRef(null);
+    const [onlineUsers, setOnlineUsers] = useState([]);
+    const socket = getSocket();
 
+    const { isMobile } = useSelector((state) => state.misc);
+    const { user } = useSelector((state) => state.auth);
+    const { newMessagesAlert } = useSelector((state) => state.chat);
 
+    const { isLoading, data, isError, error, refetch } = useMyChatsQuery("");
+    useErrors([{ isError, error }]);
 
-const Applayout = () =>(WrappedComponent)=>{
-  
-  return (props)=>{
+    useEffect(() => {
+      getOrSaveFromStorage({ key: NEW_MESSAGE_ALERT, value: newMessagesAlert });
+    }, [newMessagesAlert]);
 
-    const params=useParams()
-    const navigate=useNavigate()
-    const dispatch=useDispatch()
-    const chatId=params.chatId;
-    
-    const deleteMenuAnchor=useRef(null);
+    const handleDeleteChat = (e, chatId, groupChat) => {
+      dispatch(setIsDeleteMenu(true));
+      dispatch(setSelectedDeleteChat({ chatId, groupChat }));
+      deleteMenuAnchor.current = e.currentTarget;
+    };
 
-    const [onlineUsers,setOnlineUsers]=useState([])
+    const handleMobileClose = () => dispatch(setIsMobile(false));
 
+    const newMessageAlertListener = useCallback((data) => {
+      if (data.chatId === chatId) return;
+      dispatch(setNewMessagesAlert(data));
+    }, [chatId]);
 
-    const socket=getSocket()
+    const newRequestListener = useCallback(() => {
+      dispatch(increamentNotification());
+    }, [dispatch]);
 
-    console.log(socket.id)
-    const {isMobile}=useSelector((state)=>state.misc)
-    const {user}=useSelector((state)=>state.auth)
-    const {newMessagesAlert}=useSelector((state)=>state.chat)
+    const refetchListener = useCallback(() => {
+      refetch();
+      navigate("/");
+    }, [refetch, navigate]);
 
+    const onlineUsersListener = useCallback((data) => {
+      setOnlineUsers(data);
+    }, []);
 
-    const {isLoading,data,isError,error,refetch}=useMyChatsQuery("")
-   
+    const eventHandlers = {
+      [NEW_MESSAGE_ALERT]: newMessageAlertListener,
+      [NEW_REQUEST]: newRequestListener,
+      [REFETCH_CHATS]: refetchListener,
+      [ONLINE_USERS]: onlineUsersListener
+    };
 
-    useErrors([{isError,error}])
+    useSocketEvents(socket, eventHandlers);
 
-
-    useEffect(()=>{
-      getOrSaveFromStorage({key:NEW_MESSAGE_ALERT,value:newMessagesAlert});
-
-    },[newMessagesAlert])
-
-
-
-   
-
-    const handleDeleteChat=(e,chatId,groupChat)=>{
-      dispatch(setIsDeleteMenu(true))
-      dispatch(setSelectedDeleteChat({chatId,groupChat}))
-      deleteMenuAnchor.current=e.currentTarget
-    }
-
-    const handleMobileClose=()=>dispatch(setIsMobile(false))
-
-
-
-
-    const newMessageAlertListener=useCallback((data)=>{
-      if(data.chatId===chatId) return
-      dispatch(setNewMessagesAlert(data))
-    },[chatId])
-
-
-
-
-    
-    const newRequestListener=useCallback(()=>{
-        dispatch(increamentNotification())
-    },[dispatch])
-
-
-    const refetchListener=useCallback(()=>{
-       refetch()
-       navigate("/")
-  },[refetch,navigate])
-
-  const onlineUsersListener=useCallback((data)=>{
-      console.log("onlineUsers",data)
-     setOnlineUsers(data)
-},[])
-
-    const eventHandlers={
-      [NEW_MESSAGE_ALERT]:newMessageAlertListener,
-      [NEW_REQUEST]:newRequestListener,
-      [REFETCH_CHATS]:refetchListener,
-      [ONLINE_USERS]:onlineUsersListener
-    }
-
-    
-    useSocketEvents(socket,eventHandlers)
+    const theme = useTheme();
+    const isXs = useMediaQuery(theme.breakpoints.down('sm'));
 
     return (
-    <>
+      <>
         <Title />
-        <Header/>
+        <Header />
 
-        <DeleteChatMenu 
-        dispatch={dispatch} 
-        deleteMenuAnchor={deleteMenuAnchor} />
+        <DeleteChatMenu dispatch={dispatch} deleteMenuAnchor={deleteMenuAnchor} />
 
-        {
-          isLoading?<Skeleton/>:(
-            <Drawer open={isMobile} onClose={handleMobileClose} >
+        {isLoading ? (
+          <Skeleton variant="rectangular" height="100vh" width="100%" />
+        ) : (
+          <Drawer open={isMobile} onClose={handleMobileClose}>
+            <ChatList
+              w="70vw"
+              chats={data?.chats}
+              chatId={chatId}
+              handleDeleteChat={handleDeleteChat}
+              newMessagesAlert={newMessagesAlert}
+              onlineUsers={onlineUsers}
+            />
+          </Drawer>
+        )}
+
+        <Grid container height="calc(100vh - 4rem)">
+          <Grid
+            item
+            xs={12}
+            sm={4}
+            md={3}
+            height="100%"
+            sx={{ display: { xs: "none", sm: "block" } }}
+          >
+            {isLoading ? (
+              <Skeleton variant="rectangular" height="100%" />
+            ) : (
               <ChatList
-                w="70vw"
                 chats={data?.chats}
                 chatId={chatId}
                 handleDeleteChat={handleDeleteChat}
                 newMessagesAlert={newMessagesAlert}
                 onlineUsers={onlineUsers}
               />
-            </Drawer>
-          )
-        }
+            )}
+          </Grid>
 
-        <Grid container height= "calc(100vh - 4rem)">
+          <Grid
+            item
+            xs={12}
+            sm={8}
+            md={5}
+            lg={6}
+            height="100%"
+            sx={{ padding: isXs ? "0.5rem" : "1rem" }}
+          >
+            <WrappedComponent {...props} chatId={chatId} user={user} />
+          </Grid>
 
-            <Grid item 
-            sm={4} 
-            md={3}
+          <Grid
+            item
+            xs={12}
+            md={4}
+            lg={3}
             height="100%"
             sx={{
-             display:{xs:"none",sm:"block"}
-              }}>
-                {
-                  isLoading ? (
-                    <Skeleton/>
-                  ):(
-                    <ChatList 
-                    chats={data?.chats} 
-                    chatId={chatId}
-                     handleDeleteChat={handleDeleteChat}
-                     newMessagesAlert={newMessagesAlert}
-                     onlineUsers={onlineUsers}
-                    />
-                  )
-                }
-            </Grid>
-
-            <Grid item 
-             xs={12}
-             sm={8}
-             md={5} 
-             lg={6} 
-             height="100%"
-             >
-                <WrappedComponent {...props}  chatId={chatId} user={user}/>
-            </Grid>
-
-            <Grid
-            item
-             md={4}
-             lg={3}
-             height="100%"
-              sx={{
-              display:{xs:"none",md:"block"},
-              padding:"2rem",
-              background:  "linear-gradient(to bottom right, #b91c1c, #3b82f6, #4338ca)"
-              }}>
-             <Profile user={user}/>
-            </Grid>
-
-            
+              display: { xs: "none", md: "block" },
+              padding: isXs ? "1rem" : "2rem",
+              background: "linear-gradient(to bottom right, #b91c1c, #3b82f6, #4338ca)"
+            }}
+          >
+            <Profile user={user} />
+          </Grid>
         </Grid>
-    </>
-    )
-  }
-}
+      </>
+    );
+  };
+};
 
-export default Applayout
+export default Applayout;
