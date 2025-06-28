@@ -1,4 +1,4 @@
-import React,{lazy, Suspense, useEffect} from 'react'
+import {lazy, Suspense, useEffect} from 'react'
 import {BrowserRouter, Routes,Route} from 'react-router-dom'
 import ProtectRoute from './components/auth/ProtectRoute.jsx'
 import {LayoutLoader} from './components/layout/Loaders.jsx'
@@ -69,11 +69,11 @@ const App = () => {
         } 
         />
 
-      <Route path='/admin' element={<AdminLogin/>}/>
-      <Route path='/admin/dashboard' element={<Dashboard/>} />
-      <Route path='/admin/users' element={<UserManagement/>} />
-      <Route path='/admin/chats' element={<ChatManagement/>} />
-      <Route path='/admin/messages' element={<MessagesManagement/>} />
+          <Route path='/admin' element={<AdminLogin/>}/>
+          <Route path='/admin/dashboard' element={<Dashboard/>} />
+          <Route path='/admin/users' element={<UserManagement/>} />
+          <Route path='/admin/chats' element={<ChatManagement/>} />
+          <Route path='/admin/messages' element={<MessagesManagement/>} />
 
         <Route path='*' element={<NotFound/>}/>
       </Routes>
