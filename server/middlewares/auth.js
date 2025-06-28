@@ -2,7 +2,6 @@ import { adminSecretKey } from "../app.js";
 import { ErrorHandler } from "../utils/utility.js";
 import jwt from 'jsonwebtoken'
 import { TryCatch } from "./error.js";
-import { CHATTU_TOKEN } from "../constants/config.js";
 import { User } from "../models/user.js";
 import { CHATTU_TOKEN, corsOptions } from "../constants/config.js"
 
