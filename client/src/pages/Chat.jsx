@@ -1,7 +1,7 @@
 import React, { Fragment,lazy,useCallback,useEffect,useRef, useState } from 'react'
 import Applayout from '../components/layout/Applayout.jsx'
 import { IconButton, Skeleton, Stack } from '@mui/material';
-import { grayColor,orange } from '../constants/color.js';
+import { grayColor,lightBlue,lightBlueGrad,orange } from '../constants/color.js';
 import { AttachFile as AttachFileIcon,Send as SendIcon } from '@mui/icons-material';
 import {InputBox} from '../components/styles/StyledComponents.jsx'
 import {FileMenu} from '../components/dialogs/FileMenu.jsx'
@@ -18,10 +18,7 @@ import { removeNewMessagesAlert } from '../redux/reducers/chat.js';
  import {TypingLoader} from "../components/layout/Loaders.jsx"
 import { useNavigate } from 'react-router-dom';
 
-const user={
-  _id:"sdfsdfsdf",
-  name:"Abhishek Nahar Singh",
-}
+
 
 
 const Chat = ({chatId,user}) => {
@@ -199,11 +196,11 @@ const Chat = ({chatId,user}) => {
     boxSizing={"border-box"}
     padding={"1rem"}
     spacing={"1rem"}
-    bgcolor={grayColor}
     height={"90%"}
     sx={{
       overflowX:"hidden",
       overflowY:"auto",
+      backgroundImage: "linear-gradient(to right, #0f172a, #334155)"
     }}
     >
     
@@ -234,6 +231,9 @@ const Chat = ({chatId,user}) => {
       padding={"1rem"}
       alignItems={"center"}
       position={"relative"}
+      sx={{
+        backgroundImage: "linear-gradient(to bottom right, #ADD8E6,rgb(8, 29, 89))",
+      }}
       >
 
         <IconButton
@@ -258,7 +258,7 @@ const Chat = ({chatId,user}) => {
         type='submit'
         sx={{
           rotate:"-30deg",
-          bgcolor:orange,
+          bgcolor:'black',
           color:"white",
           marginLeft:"1rem",
           padding:"0.5rem",

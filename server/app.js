@@ -30,6 +30,10 @@ const mongoURI=process.env.MONGO_URI;
 const port=process.env.PORT || 3000;
 const envMode=process.env.NODE_ENV.trim() || "PRODUCTION";
 const adminSecretKey=process.env.ADMIN_SECRET_KEY||"adsasdsdfsdfsdfd";
+
+
+
+
 const userSocketIDs=new Map();
 const onlineUsers=new Set()
 
@@ -86,11 +90,24 @@ io.use((socket,next)=>{
 io.on("connection",(socket)=>{
 
     const user=socket.user
-    console.log(user)
-
     userSocketIDs.set(user._id.toString(),socket.id);
     
     
+
+    const userIdString = user._id.toString();
+    if (!onlineUsers.has(userIdString)) { // Avoid re-adding if somehow already there
+        onlineUsers.add(userIdString);
+
+        // 3. Broadcast the updated online users list to ALL connected clients
+        //    (or at least to users who are friends with this user, etc., depending on your app's privacy)
+        //    For simplicity, let's broadcast to all sockets connected to the server.
+        //    If you have a large number of users, consider optimizing this by only sending
+        //    to users who need this list (e.g., users on the "friends list" page).
+        io.emit(ONLINE_USERS, Array.from(onlineUsers)); // Emit to everyone
+        console.log(`User ${user.name} added to onlineUsers. Current online: ${onlineUsers.size}`);
+    }
+
+
 
     socket.on(NEW_MESSAGE,async({chatId,members,message})=>{
         const messageForRealtime={
@@ -111,7 +128,7 @@ io.on("connection",(socket)=>{
             chat:chatId,
         }
 
-        console.log("Emitting",messageForRealtime)
+        // console.log("Emitting",messageForRealtime)
         const membersSocket=getSockets(members)
         
         io.to(membersSocket).emit(NEW_MESSAGE,{

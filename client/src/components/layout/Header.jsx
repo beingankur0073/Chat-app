@@ -72,7 +72,7 @@ const Header = () => {
 
   return( <>
     <Box sx={{flexGrow:1}} height={"4rem"}>
-       <AppBar position='static' sx={{bgcolor:orange}}>
+       <AppBar position='static' sx={{bgcolor:'black'}}>
         <Toolbar>
           <Typography 
           variant='h6'
@@ -80,7 +80,7 @@ const Header = () => {
             display:{xs:"none",sm:"block"}
           }}
           >
-            Chattu
+            Chat-App
           </Typography>
           <Box 
           sx={{

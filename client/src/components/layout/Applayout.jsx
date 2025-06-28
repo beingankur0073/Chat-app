@@ -22,6 +22,7 @@ import DeleteChatMenu from '../dialogs/DeleteChatMenu.jsx';
 
 
 const Applayout = () =>(WrappedComponent)=>{
+  
   return (props)=>{
 
     const params=useParams()
@@ -41,10 +42,9 @@ const Applayout = () =>(WrappedComponent)=>{
     const {user}=useSelector((state)=>state.auth)
     const {newMessagesAlert}=useSelector((state)=>state.chat)
 
-    console.log("newMessagesAlert",newMessagesAlert)
 
     const {isLoading,data,isError,error,refetch}=useMyChatsQuery("")
-    console.log("chattt",data)
+   
 
     useErrors([{isError,error}])
 
@@ -88,7 +88,8 @@ const Applayout = () =>(WrappedComponent)=>{
        navigate("/")
   },[refetch,navigate])
 
-  const onlineUsersListener=useCallback(()=>{
+  const onlineUsersListener=useCallback((data)=>{
+      console.log("onlineUsers",data)
      setOnlineUsers(data)
 },[])
 
@@ -168,10 +169,12 @@ const Applayout = () =>(WrappedComponent)=>{
               sx={{
               display:{xs:"none",md:"block"},
               padding:"2rem",
-              bgcolor:"rgb(0,0,0,0.85)",
+              background:  "linear-gradient(to bottom right, #b91c1c, #3b82f6, #4338ca)"
               }}>
              <Profile user={user}/>
             </Grid>
+
+            
         </Grid>
     </>
     )

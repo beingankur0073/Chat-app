@@ -7,3 +7,4 @@ export const matBlack="#1c1c1c";
 export const bgGradient="linear-gradient(rgba(255,255,209),rgba(249,159,159))"
 export const purple="rgba(75,12,192,1)"
 export const purpleLight="rgba(75,12,192,0.2)"
+export const lightBlueGrad="linear-gradient(to bottom right, #ADD8E6, #00008B)"

@@ -50,7 +50,6 @@ const App = () => {
     <Suspense fallback={<LayoutLoader/>}>
      <BrowserRouter>
       <Routes >
-
         <Route element={
           <SocketProvider>
                   <ProtectRoute user={user}/>

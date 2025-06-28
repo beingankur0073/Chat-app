@@ -43,7 +43,10 @@ const AddMemberDialog = ({chatId}) => {
   return (
   <Dialog open={isAddMember} onClose={closeHandler}>
         <Stack width={"20rem"} spacing={"2rem"} p={"2rem"}>
-            <DialogTitle textAlign={"center"}>Add Member</DialogTitle>
+            <DialogTitle
+            
+            
+            textAlign={"center"}>Add Member</DialogTitle>
             <Stack spacing={"1rem"}>
                 { isLoading ? (<Skeleton/>) :  data?.friends?.length>0 ? ( data?.friends?.map(i=>(
                         <UserItem 
